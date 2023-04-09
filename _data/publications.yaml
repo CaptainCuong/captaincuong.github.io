@@ -1,8 +1,8 @@
 papers:
   - title: "Attack-Prone Features: Interpreting and ranking influence of features on robustness"
-    image: "/assets/publications/2022_attack_prone_features/Flow_chart.png"
+    image: "/assets/publications/Flow_chart.png"
     authors: "<b>Dang Cao Cuong<sup>*</sup></b>,Thai Le"
     venue: "Arxiv, 2022"
-    paper_pdf: "/assets/publications/2022_attack_prone_features/Attack_Prone_Feature.pdf"
-    poster: "/assets/publications/2022_attack_prone_features/Attack_Prone_Feature.pdf"
+    paper_pdf: "/assets/publications/Attack_Prone_Feature.pdf"
+    poster: "/assets/publications/Attack_Prone_Feature.pdf"
     selected: y
