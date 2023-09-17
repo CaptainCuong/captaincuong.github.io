@@ -6,7 +6,7 @@ papers:
     paper_pdf: "/assets/publications/2022_attack_prone_features/Attack_Prone_Feature.pdf"
     poster: "/assets/publications/2022_attack_prone_features/Attack_Prone_Feature.pdf"
     selected: y
-  - title: "Attack-Prone Features: Interpreting and ranking the influence of training dataset features on the robustness of a NLP model"
+  - title: "Score-based Diffusion Model for Conformer Generation"
     image: "/assets/publications/2023_icit_conforemer_generation/sampling_chart.png"
     authors: "<b>Dang Cao Cuong<sup>*</sup></b>"
     venue: "International Conference on Information Technology (ICIT), 2023"

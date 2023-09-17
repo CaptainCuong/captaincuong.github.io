@@ -2,6 +2,7 @@ experiences:
 - place: "FPT Software AI Center"
   time: "July. 2023 - Present"
   title: "AI Research Resident"
+  subtitle: "Constructing Diffusion Language Model for Code Generation"
   category: "work"
 
 - place: "HCMUT"
