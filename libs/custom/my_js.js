@@ -92,3 +92,8 @@ $(document).ready(function() {
   init();
 
 });
+
+function scrollToSection(sectionId) {
+      var linkedText = document.getElementById(sectionId);
+      linkedText.scrollIntoView({ behavior: 'smooth' });
+}
