@@ -197,12 +197,24 @@ span.paper_tit {
   color:#00A9FF; 
   font-weight: bold; 
   font-style: italic;
+  cursor: pointer;
+}
+
+span.paper_tit:hover {
+  color:#7743DB; 
+  text-decoration: underline;
 }
 
 span.kws {
   color:#E893CF; 
   font-weight: bold; 
   font-style: italic;
+  cursor: pointer;
+}
+
+span.kws:hover {
+  color:#7743DB; 
+  text-decoration: underline;
 }
 
 .turn_red {
