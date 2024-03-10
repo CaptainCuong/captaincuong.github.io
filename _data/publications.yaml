@@ -1,12 +1,12 @@
 papers:
-  - title: "A Curious Case of Searching for the Correlation between Training Data and Adversarial Robustness of Transformer Textual Models"
+  - title: "<p id=\"robust\">A Curious Case of Searching for the Correlation between Training Data and Adversarial Robustness of Transformer Textual Models</p>"
     image: "/assets/publications/2024_attack_prone_features/Flowchart_Simple.png"
     authors: "<b>Cuong Dang</b>,Dung D. Le,Thai Le"
     venue: "Arxiv, 2024"
     paper_pdf: "https://arxiv.org/abs/2402.11469"
     poster: ""
     selected: y
-  - title: "Score-based Diffusion Model for Conformer Generation"
+  - title: "<p id=\"drug\">Score-based Diffusion Model for Conformer Generation</p>"
     image: "/assets/publications/2023_icit_conforemer_generation/sampling_chart.png"
     authors: "<b>Dang Cao Cuong</b>"
     venue: "International Conference on Information Technology (ICIT), 2023"
