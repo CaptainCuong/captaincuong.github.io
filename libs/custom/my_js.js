@@ -94,6 +94,16 @@ $(document).ready(function() {
 });
 
 function scrollToSection(sectionId) {
-      var linkedText = document.getElementById(sectionId);
-      linkedText.scrollIntoView({ behavior: 'smooth' });
+  // Find the linked text element
+  var linkedText = document.getElementById(sectionId);
+  // Scroll to the specified destination
+  linkedText.scrollIntoView({ behavior: 'smooth',
+                              block: 'center',
+                              inline: 'center' });
+  // Add class 'red' to change text color to red
+  linkedText.classList.add('turn_red');
+  // Revert status to normal after 2 seconds
+  setTimeout(function() {
+    linkedText.classList.remove('turn_red');
+  }, 2000);
 }
