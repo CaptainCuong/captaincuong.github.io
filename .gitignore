@@ -1,8 +1,4 @@
 .DS_Store
 */.DS_Store
-_site/assets/*
-_site/projects/*
-_site/index.html
-_site/libs/icon.png
-_site/libs/external/*
+_site/*
 test.html
