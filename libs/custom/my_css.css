@@ -208,7 +208,7 @@ span.paper_tit:hover {
 }
 
 span.kws {
-  color:#E893CF; 
+  color:#e96ac2; 
   font-weight: bold; 
   font-style: italic;
   cursor: pointer;
@@ -222,4 +222,10 @@ span.kws:hover {
 .turn_red {
   text-decoration: underline;
   color: red
+}
+
+span.cuong_author {
+  color:#1c00df; 
+  font-weight: bold; 
+  font-style: italic;
 }
