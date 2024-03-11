@@ -1,6 +1,6 @@
 projects:
-  - title: 
-    subtitle: 
-    thumbnail: 
-    url: 
+  - title: Semi-Autonomous Car
+    subtitle:
+    thumbnail: assets/projects/self_driving_mode.png
+    url: https://github.com/hungluu6453/BK_212_Autonomous_Car_DMC_Project
     selected: y

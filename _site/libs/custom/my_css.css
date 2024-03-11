@@ -192,3 +192,40 @@ h4 {
   .popover-item:first-child .popover-link:hover:after {
     border-bottom-color: #33C3F0; }
 }
+
+/*  ================ Cuong's styling  ================ */
+
+span.paper_tit {
+  color:#00A9FF; 
+  font-weight: bold; 
+  font-style: italic;
+  cursor: pointer;
+}
+
+span.paper_tit:hover {
+  color:#7743DB; 
+  text-decoration: underline;
+}
+
+span.kws {
+  color:#e934b4; 
+  font-weight: bold; 
+  font-style: italic;
+  cursor: pointer;
+}
+
+span.kws:hover {
+  color:#7743DB; 
+  text-decoration: underline;
+}
+
+.turn_red {
+  text-decoration: underline;
+  color: red
+}
+
+span.cuong_author {
+  color:#1c00df; 
+  font-weight: bold; 
+  font-style: italic;
+}
