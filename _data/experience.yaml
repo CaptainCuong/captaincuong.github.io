@@ -4,14 +4,17 @@ experiences:
   title: "AI Research Resident"
   subtitle: "Constructing Diffusion Language Model for Code Generation"
   category: "work"
+  link: "https://ai.fpt-software.com/ai-residency/"
 
 - place: "HCMUT"
   time: "Sep. 2019 - June 2023"
   title: "Undergraduate Student in Computer Science"
   category: "school"
+  link: "https://hcmut.edu.vn/"
 
-- place: "VNPT Lab"
+- place: "URA Research Group"
   time: "Mar. 2021 - July 2022"
   title: "Research Associate"
   subtitle: "Constructing Chatbot for a Real Estate Company"
   category: "work"
+  link: "https://www.ura.hcmut.edu.vn/"

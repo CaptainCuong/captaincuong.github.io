@@ -61,9 +61,10 @@
 }
 
 .flag {
+  color: darkblue;
   position: relative;
   display: inline;
-  background: rgb(248,248,248);
+  background: rgb(185 222 170);
   padding: 6px 10px;
   border-radius: 5px;
   
@@ -133,10 +134,9 @@
 
 .time-wrapper {
   display: inline;
-  
   line-height: 1em;
-  font-size: 0.66666em;
-  color: #FF9967;
+  font-size: 0.75em;
+  color: fuchsia;
   vertical-align: middle;
 }
 
@@ -156,7 +156,7 @@
 
 .desc {
   margin: 1em 0.75em 0 0;
-  font-size: 0.77777em;
+  font-size: 0.85em;
   /* font-style: italic; */
   line-height: 1.5em;
 }

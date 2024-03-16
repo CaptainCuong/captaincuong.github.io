@@ -234,3 +234,10 @@ span.flag:hover {
     color: #b7144feb;
     cursor: pointer;
 }
+
+a.flag_link:hover {
+    color: #b7144feb;
+    cursor: pointer;
+    text-underline-offset:0.2em;
+}
+
