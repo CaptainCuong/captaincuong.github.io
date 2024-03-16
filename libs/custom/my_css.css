@@ -229,3 +229,8 @@ span.cuong_author {
   font-weight: bold; 
   font-style: italic;
 }
+
+span.flag:hover {
+    color: #b7144feb;
+    cursor: pointer;
+}

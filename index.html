@@ -9,30 +9,21 @@ layout: default
       I am a research resident at <a href="https://fpt-aicenter.com/ai-residency/">FPT AI Center</a> advised by <a href="https://andrew-dungle.github.io/">Prof. Dung D. Le</a>. During my undergraduate years, I also closely collaborated with <a href="https://lethaiq.github.io/tql3/">Prof. Thai Le</a> at University of Mississippi (Ole Miss) and <a href="https://www.ornl.gov/staff-profile/hoang-tran">Dr. Hoang Tran</a> at Oak Ridge Lab.
     </p>
     <p>
-      My primary research interests lie in the area of natural language processing (NLP), reinforcement learning (RL), graph neural network (GNN), federated learning (FL) and machine learning (ML). The long-term goal of my research is to enhance the <span class="kws" onclick="scrollToSection('robust')">robustness</span>, <span class="kws">reliability</span>, <span class="kws">privacy</span>, and <span class="kws">fairness</span> of <span class="kws">NLP systems</span> (e.g. Question Answering and Text Classification), <span class="kws">Reinforcement Learning applications</span> (e.g. Autonomous Driving in Adverse Weather Conditions, Traffic Control Systems, and Complex Social Systems), <span class="kws" onclick="scrollToSection('drug')">Graph Neural Network applications</span> (e.g. Drug Discovery, Traffic Prediction, Social Network Analysis, Recommender Systems), and <span class="kws">Federated Learning algorithms</span> so that they can be reliably used in real-world scenarios.
+      My primary research interests lie in the area of natural language processing (NLP), reinforcement learning (RL), graph neural network (GNN), and machine learning (ML). The long-term goal of my research is to enhance the <span class="kws" onclick="scrollToSection('robust')">robustness</span>, <span class="kws">reliability</span>, <span class="kws">privacy</span>, and <span class="kws">fairness</span> of <span class="kws">NLP systems</span> (e.g. Machine Translation, Question Answering and Text Classification), <span class="kws">Reinforcement Learning applications</span> (e.g. Autonomous Driving in Adverse Weather Conditions, Traffic Control Systems, and Complex Social Systems), <span class="kws" onclick="scrollToSection('drug')">Graph Neural Network applications</span> (e.g. Drug Discovery, Traffic Prediction, Social Network Analysis, Recommender Systems), so that they can be reliably used in real-world scenarios.
       In particular, my current research focuses on <span class="kws" onclick="scrollToSection('robust')">i) explaining factors affecting the robustness of NLP models</span>, and <span class="kws">ii) building NLP models robust to unseen cases in the wild</span>.
       Here are some keywords:
       <ul>
         <li>
-          Robust & Reliable Machine Learning
+          Fair AI (FAI)
         </li>
-        <!-- <li>
-          Differential Privacy
-        </li> -->
+        <li>
+          Explainable AI (XAI)
+        </li>
+        <li>
+          Generative AI (GAI)
+        </li>
         <li>
           Adversarial Attack/Robustness
-        </li>
-        <li>
-          Federated Learning
-        </li>
-        <li>
-          Explainable AI in NLP
-        </li>
-        <li>
-          Graph Neural Network
-        </li>
-        <li>
-          Drug Discovery
         </li>
       </ul>
     </p>
@@ -55,7 +46,7 @@ layout: default
   <h4>Education</h4>
         <div class="paper">
           <p class="title"><b>HCMUT<b style="float:right;">Sep. 2019 - June 2023</b></b></p>
-          <p>B.Eng. in Computer Science</p>
+          <p><i>B.Eng.</i> in Computer Science</p>
           <!-- <p>GPA: 8.5/10</p> -->
           <p></p>
         </div>
@@ -66,13 +57,16 @@ layout: default
 <div class="docs-section" id="publications">
   <h4>Publications</h4>
 
-  <!-- <p>Most recent publications on <a href="{{ site.data.main_info.google_scholar }}" target="_blank">Google Scholar</a>.<br/> -->
+  <p>Most recent publications on <a href="{{ site.data.main_info.google_scholar }}" target="_blank">Google Scholar</a>.<br/>
   <sup>*</sup> indicates equal contribution.
   </p>
 
   <ul class="tab-nav">
     <li><div class="button active" data-ref="#papers-selected">Selected</div></li>
-    <li><div class="button" data-ref="#papers-all">All</div></li>
+    <li><div class="button" data-ref="#papers-xai">XAI</div></li>
+    <li><div class="button" data-ref="#papers-gai">GAI</div></li>
+    <li><div class="button" data-ref="#papers-fai">FAI</div></li>
+    <li><div class="button" data-ref="#papers-rob">Robustness</div></li>
   </ul>
 
   <div class="tab-content">
@@ -117,43 +111,179 @@ layout: default
       {% endfor %}
     </div>
 
-    <div class="tab-pane" id="papers-all">
+    <div class="tab-pane" id="papers-xai">
       {% for paper in site.data.publications.papers %}
-        <div class="paper">
-          <div class="row">
-            <div class="four columns">
-              <div class="figure">
-                <img src="{{ paper.image }}" width="100%">
+        {% for type in paper.types %}
+          {% if type == "xai" %}
+            <div class="paper">
+              <div class="row">
+                <div class="four columns">
+                  <div class="figure">
+                    <img src="{{ paper.image }}" width="100%">
+                  </div>
+                </div>
+                <div class="eight columns">
+                  <p class="title"><b>{{ paper.title }}</b></p>
+                  <p>{{ paper.authors }}</p>
+                  <p><i>{{ paper.venue }}</i></p>
+                  <div class="paper-buttons">
+                    {% if paper.paper_pdf %}
+                      <a class="button" href="{{ paper.paper_pdf | prepend: site.baseurl }}" target="_blank">Paper</a>
+                    {% endif %}
+
+                    {% if paper.slides %}
+                      <a class="button" href="{{ paper.slides | prepend: site.baseurl }}" target="_blank">Slides</a>
+                    {% endif %}
+
+                    {% if paper.poster %}
+                      <a class="button" href="{{ paper.poster | prepend: site.baseurl }}" target="_blank">Poster</a>
+                    {% endif %}
+
+                    {% if paper.video %}
+                      <a class="button" href="{{ paper.video }}" target="_blank">Video</a>
+                    {% endif %}
+
+                    {% if paper.code %}
+                      <a class="button" href="{{ paper.code }}" target="_blank">Code</a>
+                    {% endif %}
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="eight columns">
-              <p class="title"><b>{{ paper.title }}</b></p>
-              <p>{{ paper.authors }}</p>
-              <p><i>{{ paper.venue }}</i></p>
-              <div class="paper-buttons">
-                {% if paper.paper_pdf %}
-                  <a class="button" href="{{ paper.paper_pdf | prepend: site.baseurl }}" target="_blank">Paper</a>
-                {% endif %}
+          {% endif %}
+        {% endfor %}
+    {% endfor %}
+    </div>
 
-                {% if paper.slides %}
-                  <a class="button" href="{{ paper.slides | prepend: site.baseurl }}" target="_blank">Slides</a>
-                {% endif %}
+    <div class="tab-pane" id="papers-fai">
+      {% for paper in site.data.publications.papers %}
+        {% for type in paper.types %}
+          {% if type == "fai" %}
+            <div class="paper">
+              <div class="row">
+                <div class="four columns">
+                  <div class="figure">
+                    <img src="{{ paper.image }}" width="100%">
+                  </div>
+                </div>
+                <div class="eight columns">
+                  <p class="title"><b>{{ paper.title }}</b></p>
+                  <p>{{ paper.authors }}</p>
+                  <p><i>{{ paper.venue }}</i></p>
+                  <div class="paper-buttons">
+                    {% if paper.paper_pdf %}
+                      <a class="button" href="{{ paper.paper_pdf | prepend: site.baseurl }}" target="_blank">Paper</a>
+                    {% endif %}
 
-                {% if paper.poster %}
-                  <a class="button" href="{{ paper.poster | prepend: site.baseurl }}" target="_blank">Poster</a>
-                {% endif %}
+                    {% if paper.slides %}
+                      <a class="button" href="{{ paper.slides | prepend: site.baseurl }}" target="_blank">Slides</a>
+                    {% endif %}
 
-                {% if paper.video %}
-                  <a class="button" href="{{ paper.video }}" target="_blank">Video</a>
-                {% endif %}
+                    {% if paper.poster %}
+                      <a class="button" href="{{ paper.poster | prepend: site.baseurl }}" target="_blank">Poster</a>
+                    {% endif %}
 
-                {% if paper.code %}
-                  <a class="button" href="{{ paper.code }}" target="_blank">Code</a>
-                {% endif %}
+                    {% if paper.video %}
+                      <a class="button" href="{{ paper.video }}" target="_blank">Video</a>
+                    {% endif %}
+
+                    {% if paper.code %}
+                      <a class="button" href="{{ paper.code }}" target="_blank">Code</a>
+                    {% endif %}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          {% endif %}
+        {% endfor %}
+    {% endfor %}
+    </div>
+
+    <div class="tab-pane" id="papers-gai">
+      {% for paper in site.data.publications.papers %}
+        {% for type in paper.types %}
+          {% if type == "gai" %}
+            <div class="paper">
+              <div class="row">
+                <div class="four columns">
+                  <div class="figure">
+                    <img src="{{ paper.image }}" width="100%">
+                  </div>
+                </div>
+                <div class="eight columns">
+                  <p class="title"><b>{{ paper.title }}</b></p>
+                  <p>{{ paper.authors }}</p>
+                  <p><i>{{ paper.venue }}</i></p>
+                  <div class="paper-buttons">
+                    {% if paper.paper_pdf %}
+                      <a class="button" href="{{ paper.paper_pdf | prepend: site.baseurl }}" target="_blank">Paper</a>
+                    {% endif %}
+
+                    {% if paper.slides %}
+                      <a class="button" href="{{ paper.slides | prepend: site.baseurl }}" target="_blank">Slides</a>
+                    {% endif %}
+
+                    {% if paper.poster %}
+                      <a class="button" href="{{ paper.poster | prepend: site.baseurl }}" target="_blank">Poster</a>
+                    {% endif %}
+
+                    {% if paper.video %}
+                      <a class="button" href="{{ paper.video }}" target="_blank">Video</a>
+                    {% endif %}
+
+                    {% if paper.code %}
+                      <a class="button" href="{{ paper.code }}" target="_blank">Code</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+    {% endfor %}
+    </div>
+
+    <div class="tab-pane" id="papers-rob">
+      {% for paper in site.data.publications.papers %}
+        {% for type in paper.types %}
+          {% if type == "rob" %}
+            <div class="paper">
+              <div class="row">
+                <div class="four columns">
+                  <div class="figure">
+                    <img src="{{ paper.image }}" width="100%">
+                  </div>
+                </div>
+                <div class="eight columns">
+                  <p class="title"><b>{{ paper.title }}</b></p>
+                  <p>{{ paper.authors }}</p>
+                  <p><i>{{ paper.venue }}</i></p>
+                  <div class="paper-buttons">
+                    {% if paper.paper_pdf %}
+                      <a class="button" href="{{ paper.paper_pdf | prepend: site.baseurl }}" target="_blank">Paper</a>
+                    {% endif %}
+
+                    {% if paper.slides %}
+                      <a class="button" href="{{ paper.slides | prepend: site.baseurl }}" target="_blank">Slides</a>
+                    {% endif %}
+
+                    {% if paper.poster %}
+                      <a class="button" href="{{ paper.poster | prepend: site.baseurl }}" target="_blank">Poster</a>
+                    {% endif %}
+
+                    {% if paper.video %}
+                      <a class="button" href="{{ paper.video }}" target="_blank">Video</a>
+                    {% endif %}
+
+                    {% if paper.code %}
+                      <a class="button" href="{{ paper.code }}" target="_blank">Code</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
     {% endfor %}
     </div>
 

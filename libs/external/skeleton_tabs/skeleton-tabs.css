@@ -20,8 +20,9 @@ ul.tab-nav li .button {
 
 ul.tab-nav li .active.button {
     border-bottom: 1px solid #fff;
-    color: #000;
+    color: #c001ff;
     font-weight: 600;
+    text-decoration: underline;
 }
 
 .tab-content .tab-pane {

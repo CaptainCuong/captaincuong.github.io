@@ -8,7 +8,7 @@ $(function() {
 
         $('.tab-pane.active', $(href).parent()).removeClass('active');
         $(href).addClass('active');
-
+        
         /*
         var toScroll = $(this).parent().parent().parent().parent();
 

@@ -94,6 +94,15 @@ $(document).ready(function() {
 });
 
 function scrollToSection(sectionId) {
+  // Select the <div> element with the data-ref="#papers-selected" attribute
+  var selectedDiv = document.querySelector('.tab-nav .button[data-ref="#papers-selected"]');
+  
+  // Check if the selectedDiv exists
+  if (selectedDiv) {
+      // Trigger a click event on the selectedDiv
+      selectedDiv.click();
+  }
+
   // Find the linked text element
   var linkedText = document.getElementById(sectionId);
   // Scroll to the specified destination
