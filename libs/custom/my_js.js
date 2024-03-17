@@ -93,7 +93,7 @@ $(document).ready(function() {
 
 });
 
-function scrollToSection(sectionId) {
+function scrollToPaper(paperId) {
   // Select the <div> element with the data-ref="#papers-selected" attribute
   var selectedDiv = document.querySelector('.tab-nav .button[data-ref="#papers-selected"]');
   
@@ -104,7 +104,7 @@ function scrollToSection(sectionId) {
   }
 
   // Find the linked text element
-  var linkedText = document.getElementById(sectionId);
+  var linkedText = document.getElementById(paperId);
   // Scroll to the specified destination
   linkedText.scrollIntoView({ behavior: 'smooth',
                               block: 'center',
@@ -115,4 +115,20 @@ function scrollToSection(sectionId) {
   setTimeout(function() {
     linkedText.classList.remove('turn_red');
   }, 2000);
+}
+
+function scrollToButton(dataRefValue) {
+  // Select the <div> element with the data-ref="dataRefValue"
+  var selectedDiv = document.querySelector(`.tab-nav .button[data-ref="${dataRefValue}"]`);
+  
+  // Check if the selectedDiv exists
+  if (selectedDiv) {
+      // Trigger a click event on the selectedDiv
+      selectedDiv.click();
+      selectedDiv.scrollIntoView({ behavior: 'smooth',
+                                   block: 'center',
+                                   inline: 'center' });
+  } else {
+    console.log(`Div with data-ref "${dataRefValue}" not found.`);
+  }
 }

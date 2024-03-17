@@ -231,13 +231,24 @@ span.cuong_author {
 }
 
 span.flag:hover {
-    color: #b7144feb;
-    cursor: pointer;
+  color: #b7144feb;
+  cursor: pointer;
 }
 
 a.flag_link:hover {
-    color: #b7144feb;
-    cursor: pointer;
-    text-underline-offset:0.2em;
+  color: #b7144feb;
+  cursor: pointer;
+  text-underline-offset:0.2em;
+}
+
+.kw_lst {
+  color: blue;
+}
+
+.kw_lst:hover {
+  color: #c001ff;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset:0.2em;
 }
 
