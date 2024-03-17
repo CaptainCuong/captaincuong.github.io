@@ -22,7 +22,7 @@ layout: default
           Generative AI (GAI)
         </li>
         <li>
-          Adversarial Attack/Robustness
+          Adversarial Attack/Robustness, Robust AI (RAI)
         </li>
       </ul>
     </p>
@@ -65,7 +65,7 @@ layout: default
     <li><div class="button" data-ref="#papers-xai">XAI</div></li>
     <li><div class="button" data-ref="#papers-gai">GAI</div></li>
     <li><div class="button" data-ref="#papers-fai">FAI</div></li>
-    <li><div class="button" data-ref="#papers-rob">Robustness</div></li>
+    <li><div class="button" data-ref="#papers-rai">RAI</div></li>
   </ul>
 
   <div class="tab-content">
@@ -242,10 +242,10 @@ layout: default
     {% endfor %}
     </div>
 
-    <div class="tab-pane" id="papers-rob">
+    <div class="tab-pane" id="papers-rai">
       {% for paper in site.data.publications.papers %}
         {% for type in paper.types %}
-          {% if type == "rob" %}
+          {% if type == "rai" %}
             <div class="paper">
               <div class="row">
                 <div class="four columns">
@@ -301,36 +301,6 @@ layout: default
     <div class="tab-pane active" id="projects-selected">
       {% assign selected_projects = site.data.projects.projects | where: "selected", "y" %}
       {% for project in selected_projects %}
-        {% assign index_modulo = forloop.index0 | modulo:3 %}
-        {% if index_modulo == 0 %}
-          <div class="row">
-        {% endif %}
-
-          <div class="four columns">
-            <div class="project-container">
-
-                <div class="project-image-container">
-                  <a href="{{ project.url }}">
-                    <img src="{{ project.thumbnail }}" class="u-max-full-width" />
-                  </a>
-                </div>
-
-                <div class="project-caption">
-                  <b>{{ project.title }}</b> <br/>
-                  {{ project.subtitle }}
-                </div>
-
-            </div>
-          </div>
-
-        {% if index_modulo == 2 %}
-          </div>
-        {% endif %}
-      {% endfor %}
-    </div>
-
-    <div class="tab-pane" id="projects-all">
-      {% for project in site.data.projects.projects %}
         {% assign index_modulo = forloop.index0 | modulo:3 %}
         {% if index_modulo == 0 %}
           <div class="row">
