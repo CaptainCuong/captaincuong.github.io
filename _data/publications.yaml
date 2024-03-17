@@ -5,7 +5,7 @@ papers:
     venue: "Arxiv, 2024"
     paper_pdf: "https://arxiv.org/abs/2402.11469"
     poster: ""
-    code: "robust"
+    paper_id: "robust"
     types: ["xai","rob"]
     selected: y
   - title: "Score-based Diffusion Model for Conformer Generation"
@@ -14,6 +14,6 @@ papers:
     venue: "International Conference on Information Technology (ICIT), 2023"
     paper_pdf: "https://ieeexplore.ieee.org/document/10225872/references#references"
     poster: "/assets/publications/2023_icit_conforemer_generation/Poster-ICIT-2023.pdf"
-    code: "drug"
+    paper_id: "drug"
     types: ["gai"]
     selected: y

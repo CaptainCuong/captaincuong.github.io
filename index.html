@@ -77,11 +77,11 @@ layout: default
           <div class="row">
             <div class="four columns">
               <div class="figure">
-                <img src="{{ paper.image }}" width="100%">
+                <a href="{{ paper.image }}"><img src="{{ paper.image }}" width="100%"></a>
               </div>
             </div>
             <div class="eight columns">
-              <p class="title"><b><span id={{paper.code}}>{{ paper.title }}</span></b></p>
+              <p class="title"><b><span id={{paper.paper_id}}>{{ paper.title }}</span></b></p>
               <p>{{ paper.authors }}</p>
               <p><i>{{ paper.venue }}</i></p>
               <div class="paper-buttons">
