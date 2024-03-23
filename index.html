@@ -9,7 +9,7 @@ layout: default
       I am a research resident at <a href="https://fpt-aicenter.com/ai-residency/">FPT AI Center</a> advised by <a href="https://andrew-dungle.github.io/">Prof. Dung D. Le</a>. During my undergraduate years, I also closely collaborated with <a href="https://lethaiq.github.io/tql3/">Prof. Thai Le</a> at University of Mississippi (Ole Miss) and <a href="https://www.ornl.gov/staff-profile/hoang-tran">Dr. Hoang Tran</a> at Oak Ridge Lab.
     </p>
     <p>
-      My primary research interests span across natural language processing (NLP), reinforcement learning (RL), graph neural networks (GNN), and machine learning (ML). My long-term goals are to use ML techniques to advance the <span class="kws" onclick="scrollToPaper('robust')">robustness</span>, <span class="kws">reliability</span>, <span class="kws">privacy</span>, and <span class="kws">fairness</span> of <span class="kws" onclick="scrollToPaper('robust')">NLP systems</span> (e.g. Machine Translation, Question Answering and Text Classification), <span class="kws">Reinforcement Learning applications</span> (e.g. Autonomous Driving in Adverse Weather Conditions, Traffic Control Systems, and Complex Social Systems), <span class="kws" onclick="scrollToPaper('drug')">Graph Neural Network applications</span> (e.g. Drug Discovery, Traffic Prediction, Social Network Analysis, Recommender Systems). I also hold a strong interest in problems of <span class="kws" onclick="scrollToPaper('drug')">Generative AI</span>, such as Hallucination, Watermarking, and Jailbreaking, etc., to ensure their effective utilization in real-world scenarios. My ongoing research centers on <span class="kws" onclick="scrollToPaper('robust')">i) elucidating factors affecting the robustness of NLP models</span>, and <span class="kws" onclick="scrollToPaper('robust')">ii) developing fast and efficient tools for forecasting the robustnes of NLP models</span>.
+      My primary research interests span across natural language processing (NLP), reinforcement learning (RL), graph neural networks (GNN), and machine learning (ML). My long-term goals are to use ML techniques to advance the <span class="kws" onclick="scrollToButton('#papers-rai')">robustness</span>, <span class="kws" onclick="scrollToButton('#papers-fai')">fairness</span>, <span class="kws" onclick="scrollToButton('#papers-xai')">explainability</span>, and <span class="kws" onclick="scrollToButton('#papers-eai')">efficiency</span> of <span class="kws" onclick="scrollToPaper('robust')">NLP systems</span> (e.g. Machine Translation, Question Answering and Text Classification), <span class="kws">Reinforcement Learning applications</span> (e.g. Autonomous Driving in Adverse Weather Conditions, Traffic Control Systems, and Complex Social Systems), <span class="kws" onclick="scrollToPaper('drug')">Graph Neural Network applications</span> (e.g. Drug Discovery, Traffic Prediction, Social Network Analysis, Recommender Systems). I also hold a strong interest in problems of <span class="kws" onclick="scrollToButton('#papers-gai')">Generative AI</span>, such as Hallucination, Watermarking, and Jailbreaking, etc., to ensure their effective utilization in real-world scenarios. My ongoing research centers on <span class="kws" onclick="scrollToPaper('robust')">i) elucidating factors affecting the robustness of NLP models</span>, and <span class="kws" onclick="scrollToPaper('robust')">ii) developing fast and efficient tools for forecasting the robustnes of NLP models</span>.
       Click on keywords below to see papers organized by topics:
       <ul>
         <li>
@@ -23,6 +23,9 @@ layout: default
         </li>
         <li>
           <span class="kw_lst" onclick="scrollToButton('#papers-rai')">Robust AI (RAI)</span>
+        </li>
+        <li>
+          <span class="kw_lst" onclick="scrollToButton('#papers-eai')">Efficient AI (EAI)</span>
         </li>
       </ul>
     </p>
@@ -68,6 +71,7 @@ layout: default
     <li><div class="button" data-ref="#papers-gai">GAI</div></li>
     <li><div class="button" data-ref="#papers-fai">FAI</div></li>
     <li><div class="button" data-ref="#papers-rai">RAI</div></li>
+    <li><div class="button" data-ref="#papers-eai">EAI</div></li>
   </ul>
 
   <div class="tab-content">
@@ -248,6 +252,50 @@ layout: default
       {% for paper in site.data.publications.papers %}
         {% for type in paper.types %}
           {% if type == "rai" %}
+            <div class="paper">
+              <div class="row">
+                <div class="four columns">
+                  <div class="figure">
+                    <img src="{{ paper.image }}" width="100%">
+                  </div>
+                </div>
+                <div class="eight columns">
+                  <p class="title"><b>{{ paper.title }}</b></p>
+                  <p>{{ paper.authors }}</p>
+                  <p><i>{{ paper.venue }}</i></p>
+                  <div class="paper-buttons">
+                    {% if paper.paper_pdf %}
+                      <a class="button" href="{{ paper.paper_pdf | prepend: site.baseurl }}" target="_blank">Paper</a>
+                    {% endif %}
+
+                    {% if paper.slides %}
+                      <a class="button" href="{{ paper.slides | prepend: site.baseurl }}" target="_blank">Slides</a>
+                    {% endif %}
+
+                    {% if paper.poster %}
+                      <a class="button" href="{{ paper.poster | prepend: site.baseurl }}" target="_blank">Poster</a>
+                    {% endif %}
+
+                    {% if paper.video %}
+                      <a class="button" href="{{ paper.video }}" target="_blank">Video</a>
+                    {% endif %}
+
+                    {% if paper.code %}
+                      <a class="button" href="{{ paper.code }}" target="_blank">Code</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+    {% endfor %}
+    </div>
+
+    <div class="tab-pane" id="papers-eai">
+      {% for paper in site.data.publications.papers %}
+        {% for type in paper.types %}
+          {% if type == "eai" %}
             <div class="paper">
               <div class="row">
                 <div class="four columns">

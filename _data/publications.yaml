@@ -6,7 +6,7 @@ papers:
     paper_pdf: "https://arxiv.org/abs/2402.11469"
     poster: ""
     paper_id: "robust"
-    types: ["xai","rai"]
+    types: ["xai","rai","eai"]
     selected: y
   - title: "Score-based Diffusion Model for Conformer Generation"
     image: "/assets/publications/2023_icit_conforemer_generation/sampling_chart.png"
