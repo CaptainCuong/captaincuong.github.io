@@ -2,7 +2,7 @@ papers:
   - title: "A Curious Case of Searching for the Correlation between Training Data and Adversarial Robustness of Transformer Textual Models"
     image: "/assets/publications/2024_attack_prone_features/Flowchart_Simple.png"
     authors: "<span class=\"cuong_author\">Cuong Dang</span>,Dung D. Le,Thai Le"
-    venue: "ACL 2024"
+    venue: "ACL Findings 2024"
     paper_pdf: "https://arxiv.org/abs/2402.11469"
     poster: ""
     paper_id: "robust"
