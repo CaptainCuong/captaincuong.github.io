@@ -12,7 +12,7 @@ papers:
     image: "/assets/publications/2023_icit_conforemer_generation/sampling_chart.png"
     authors: "<span class=\"cuong_author\">Dang Cao Cuong</span>"
     venue: "International Conference on Information Technology (ICIT), 2023"
-    paper_pdf: "https://ieeexplore.ieee.org/document/10225872/references#references"
+    paper_pdf: "https://ieeexplore.ieee.org/document/10225872"
     poster: "/assets/publications/2023_icit_conforemer_generation/Poster-ICIT-2023.pdf"
     paper_id: "drug"
     types: ["gai"]
