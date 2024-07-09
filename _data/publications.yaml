@@ -5,6 +5,7 @@ papers:
     venue: "ACL Findings 2024"
     paper_pdf: "https://arxiv.org/abs/2402.11469"
     poster: ""
+    code: "https://github.com/CaptainCuong/RobustText_ACL2024"
     paper_id: "robust"
     types: ["xai","rai","eai"]
     selected: y

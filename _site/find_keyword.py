@@ -1,8 +1,9 @@
 import os
 
 file_dir = ['./_site']
-file_dir = ['./_data', './_includes', './_layouts', './_projects', './_website_2014', './assets', './libs']
-keyword = """.*profile.*"""
+file_dir = ['./_data', './_includes', './_layouts', './_projects', './_website_2014', './assets']
+# './libs'
+keyword = """.*code.*"""
 
 for dir_ in file_dir:
 	print('\n','-'*25,dir_,'-'*25,'\n')
