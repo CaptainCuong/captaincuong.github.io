@@ -4,7 +4,8 @@ papers:
     authors: "<span class=\"cuong_author\">Cuong Dang</span>,Dung D. Le,Thai Le"
     venue: "ACL Findings 2024"
     paper_pdf: "https://arxiv.org/abs/2402.11469"
-    poster: ""
+    poster: "/assets/publications/2024_attack_prone_features/Poster.pdf"
+    slides: "/assets/publications/2024_attack_prone_features/ACL2024_Presentation.pdf"
     code: "https://github.com/CaptainCuong/RobustText_ACL2024"
     paper_id: "robust"
     types: ["xai","rai","eai"]
