@@ -6,31 +6,20 @@ layout: default
   <h4>About</h4>
   <p>
     <p style="color: red; text-align: center; font-size: 25px;">
-      I am actively looking for a PhD position starting from Fall 2025.
+      I am actively looking for an Internship position for Spring 2027.
     </p>
     <p>
-      I am currently an AI research resident at <a href="https://fpt-aicenter.com/ai-residency/">FPT AI Center</a> advised by <a href="https://andrew-dungle.github.io/">Prof. Dung D. Le</a> at VinUni. During my undergraduate years, I was advised by <a href="https://dblp.org/pid/26/8327.html">Prof. Tho Quan</a> and also collaborated closely with <a href="https://lethaiq.github.io/tql3/">Prof. Thai Le</a> at Indiana University Bloomington.
+      Cuong Dang is a second-year Ph.D. student in the Department of Electrical and Computer Engineering at Virginia Tech, advised by <a href="https://ruoxijia.net/">Prof. Ruoxi Jia</a>. His current research focuses on post-training for coding agents. He also has research experience in post-training, safety, uncertainty quantification, retrieval-augmented generation, interpretability, graph neural networks, and diffusion.
     </p>
     <p>
-      My primary research interests span across natural language processing (NLP), reinforcement learning (RL), graph neural networks (GNN), and machine learning (ML). My long-term goals are to use ML techniques to advance the <span class="kws" onclick="scrollToButton('#papers-rai')">robustness</span>, <span class="kws" onclick="scrollToButton('#papers-fai')">fairness</span>, <span class="kws" onclick="scrollToButton('#papers-xai')">explainability</span>, and <span class="kws" onclick="scrollToButton('#papers-eai')">efficiency</span> of <span class="kws" onclick="scrollToPaper('robust')">NLP systems</span> (e.g. Machine Translation, Question Answering and Text Classification), <span class="kws">Reinforcement Learning applications</span> (e.g. Autonomous Driving, Traffic Control Systems, and Complex Social Systems), <span class="kws" onclick="scrollToPaper('drug')">Graph Neural Network applications</span> (e.g. Drug Discovery, Traffic Prediction, Social Network Analysis, Recommender Systems). I also hold a strong interest in problems of <span class="kws" onclick="scrollToButton('#papers-gai')">Generative AI</span>, such as Hallucination, Watermarking, and Jailbreaking, etc., to ensure their safe, robust and effective utilization in real-world scenarios. My most recent research centers on <span class="kws" onclick="scrollToPaper('robust')">i) elucidating factors affecting the robustness of NLP models</span>, and <span class="kws" onclick="scrollToPaper('robust')">ii) developing effective and efficient tools for forecasting the robustnes of NLP models</span>.
       Click on keywords below to see papers organized by topics:
-      <ul>
-        <li>
-          <span class="kw_lst" onclick="scrollToButton('#papers-fai')">Fair AI (FAI)</span>
-        </li>
-        <li>
-          <span class="kw_lst" onclick="scrollToButton('#papers-xai')">Explainable AI (XAI)</span>
-        </li>
-        <li>
-          <span class="kw_lst" onclick="scrollToButton('#papers-gai')">Generative AI (GAI)</span>
-        </li>
-        <li>
-          <span class="kw_lst" onclick="scrollToButton('#papers-rai')">Robust AI (RAI)</span>
-        </li>
-        <li>
-          <span class="kw_lst" onclick="scrollToButton('#papers-eai')">Efficient AI (EAI)</span>
-        </li>
-      </ul>
+      <div class="kw_btn_group">
+        <span class="kw_lst kw_fai" onclick="scrollToButton('#papers-post-train')">Post-Training</span>
+        <span class="kw_lst kw_xai" onclick="scrollToButton('#papers-interpretability')">Interpretabilty</span>
+        <span class="kw_lst kw_gai" onclick="scrollToButton('#papers-safety')">Safety</span>
+        <span class="kw_lst kw_rai" onclick="scrollToButton('#papers-llm')">LLM</span>
+        <span class="kw_lst kw_eai" onclick="scrollToButton('#papers-gnn')">GNN</span>
+      </div>
     </p>
   </p>
 </div>
@@ -40,6 +29,18 @@ layout: default
   <h4>News</h4>
   <div style="max-height: 200px; overflow:auto;">
     <ul>
+      <li>
+        <b style="color:#FF6868">[Feb 2026]</b> &nbsp&nbsp
+         <i class="fa-solid fa-book-open"></i> Our paper "<span class="paper_tit" onclick="scrollToPaper('urag')">URAG: A Benchmark for Uncertainty Quantification in Retrieval-Augmented Large Language Models</span>" has been released.
+      </li>
+      <li>
+        <b style="color:#FF6868">[May 2026]</b> &nbsp&nbsp
+         <i class="fa-solid fa-award"></i> Congratulations on our paper "<span class="paper_tit" onclick="scrollToPaper('kdd26_safety')">The Confidence Trap: Calibration Attacks for Graph Neural Networks</span>" accepted to KDD 2026.
+      </li>
+      <li>
+        <b style="color:#FF6868">[Sep 2025]</b> &nbsp&nbsp
+         <i class="fa-solid fa-champagne-glasses"></i> Yayyy, I'll start my PhD journey at Virginia Tech!
+      </li>
       <li>
         <b style="color:#FF6868">[Apr 2025]</b> &nbsp&nbsp
          <i class="fa-solid fa-champagne-glasses"></i> Congratulations!!! I have received a PhD offer from Max Planck Institute and will visit MPI for Open House.
@@ -54,11 +55,7 @@ layout: default
       </li>
       <li>
         <b style="color:#FF6868">[May 2024]</b> &nbsp&nbsp
-         <i class="fa-solid fa-award"></i> Congratulations on our paper "<span class="paper_tit" onclick="scrollToPaper('robust')">A Curious Case of Searching for the Correlation between Training Data and Adversarial Robustness of Transformer Textual Models</span>" accepted to ACL Findings 2024.
-      </li>
-      <li>
-        <b style="color:#FF6868">[Feb 2024]</b> &nbsp&nbsp
-         <i class="fa-solid fa-book-open"></i> Our paper "<span class="paper_tit" onclick="scrollToPaper('robust')">A Curious Case of Searching for the Correlation between Training Data and Adversarial Robustness of Transformer Textual Models</span>" has been released.
+         <i class="fa-solid fa-award"></i> Congratulations on our paper "<span class="paper_tit" onclick="scrollToPaper('acl24_safety')">A Curious Case of Searching for the Correlation between Training Data and Adversarial Robustness of Transformer Textual Models</span>" accepted to ACL Findings 2024.
       </li>
     </ul>
   </div>
@@ -68,9 +65,11 @@ layout: default
 <div class="docs-section" id="education">
   <h4>Education</h4>
         <div class="paper">
-          <p class="title"><b>HCMUT<b style="float:right;">Sep. 2019 - June 2023</b></b></p>
+          <p class="title"><b>Virginia Tech</b><b style="float:right;">Sep. 2025 - June 2030 (Expected)</b></b></p>
+          <p><i>Ph.D.</i> in Electrical and Computer Engineering</p>
+          <p></p>
+          <p class="title"><b>HCMUT</b><b style="float:right;">Sep. 2019 - June 2023</b></b></p>
           <p><i>B.Eng.</i> in Computer Science</p>
-          <!-- <p>GPA: 8.5/10</p> -->
           <p></p>
         </div>
 
@@ -86,14 +85,14 @@ layout: default
 
   <ul class="tab-nav">
     <li><div class="button active" data-ref="#papers-selected">Selected</div></li>
-    <li><div class="button" data-ref="#papers-xai">XAI</div></li>
-    <li><div class="button" data-ref="#papers-gai">GAI</div></li>
-    <li><div class="button" data-ref="#papers-fai">FAI</div></li>
-    <li><div class="button" data-ref="#papers-rai">RAI</div></li>
-    <li><div class="button" data-ref="#papers-eai">EAI</div></li>
+    <li><div class="button" data-ref="#papers-post-train">Post-Training</div></li>
+    <li><div class="button" data-ref="#papers-interpretability">Interpretability</div></li>
+    <li><div class="button" data-ref="#papers-safety">Safety</div></li>
+    <li><div class="button" data-ref="#papers-llm">LLM</div></li>
+    <li><div class="button" data-ref="#papers-gnn">GNN</div></li>
   </ul>
 
-  <div class="tab-content">
+    <div class="tab-content">
     <div class="tab-pane active" id="papers-selected">
       {% assign selected_papers = site.data.publications.papers | where: "selected", "y" %}
       {% for paper in selected_papers %}
@@ -135,10 +134,10 @@ layout: default
       {% endfor %}
     </div>
 
-    <div class="tab-pane" id="papers-xai">
+    <div class="tab-pane" id="papers-post-train">
       {% for paper in site.data.publications.papers %}
         {% for type in paper.types %}
-          {% if type == "xai" %}
+          {% if type == "post-train" %}
             <div class="paper">
               <div class="row">
                 <div class="four columns">
@@ -179,10 +178,10 @@ layout: default
     {% endfor %}
     </div>
 
-    <div class="tab-pane" id="papers-fai">
+    <div class="tab-pane" id="papers-safety">
       {% for paper in site.data.publications.papers %}
         {% for type in paper.types %}
-          {% if type == "fai" %}
+          {% if type == "safety" %}
             <div class="paper">
               <div class="row">
                 <div class="four columns">
@@ -223,10 +222,10 @@ layout: default
     {% endfor %}
     </div>
 
-    <div class="tab-pane" id="papers-gai">
+    <div class="tab-pane" id="papers-interpretability">
       {% for paper in site.data.publications.papers %}
         {% for type in paper.types %}
-          {% if type == "gai" %}
+          {% if type == "interpretability" %}
             <div class="paper">
               <div class="row">
                 <div class="four columns">
@@ -267,10 +266,10 @@ layout: default
     {% endfor %}
     </div>
 
-    <div class="tab-pane" id="papers-rai">
+    <div class="tab-pane" id="papers-llm">
       {% for paper in site.data.publications.papers %}
         {% for type in paper.types %}
-          {% if type == "rai" %}
+          {% if type == "llm" %}
             <div class="paper">
               <div class="row">
                 <div class="four columns">
@@ -311,10 +310,10 @@ layout: default
     {% endfor %}
     </div>
 
-    <div class="tab-pane" id="papers-eai">
+    <div class="tab-pane" id="papers-gnn">
       {% for paper in site.data.publications.papers %}
         {% for type in paper.types %}
-          {% if type == "eai" %}
+          {% if type == "gnn" %}
             <div class="paper">
               <div class="row">
                 <div class="four columns">
@@ -354,50 +353,6 @@ layout: default
         {% endfor %}
     {% endfor %}
     </div>
-
-</div>
-
-<!-- ========== PROJECTS ========== -->
-<div class="docs-section" id="projects">
-  <h4>Projects</h4>
-
-  <ul class="tab-nav">
-    <li><div class="button active" data-ref="#projects-selected">Selected</div></li>
-    <li><div class="button" data-ref="#projects-all">All</div></li>
-  </ul>
-
-  <div class="tab-content">
-    <div class="tab-pane active" id="projects-selected">
-      {% assign selected_projects = site.data.projects.projects | where: "selected", "y" %}
-      {% for project in selected_projects %}
-        {% assign index_modulo = forloop.index0 | modulo:3 %}
-        {% if index_modulo == 0 %}
-          <div class="row">
-        {% endif %}
-
-          <div class="four columns">
-            <div class="project-container">
-
-                <div class="project-image-container">
-                  <a href="{{ project.url }}">
-                    <img src="{{ project.thumbnail }}" class="u-max-full-width" />
-                  </a>
-                </div>
-
-                <div class="project-caption">
-                  <b>{{ project.title }}</b> <br/>
-                  {{ project.subtitle }}
-                </div>
-
-            </div>
-          </div>
-
-        {% if index_modulo == 2 %}
-          </div>
-        {% endif %}
-      {% endfor %}
-    </div>
-  </div>
 
 </div>
 

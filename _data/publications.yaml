@@ -1,4 +1,20 @@
 papers:
+  - title: "URAG: A Benchmark for Uncertainty Quantification in Retrieval-Augmented Large Language Models"
+    image: "/assets/publications/2026_rag_benchmark/Motivation.png"
+    authors: "Vinh Nguyen<sup>*</sup>, <span class=\"cuong_author\">Cuong Dang</span><sup>*</sup>, Jiahao Zhang, Hoa Tran, Minh Tran, Trinh Chau, Thai Le, Lu Cheng, Suhang Wang"
+    venue: "Arxiv"
+    paper_pdf: "https://arxiv.org/pdf/2603.19281"
+    paper_id: "urag"
+    types: ["llm", "safety"]
+    selected: y
+  - title: "The Confidence Trap: Calibration Attacks for Graph Neural Networks"
+    image: "/assets/publications/2026_gnn_attack/Attack_Algorithm.png"
+    authors: "<span class=\"cuong_author\">Cuong Dang</span>, Jiahao Zhang, Hieu Ta Quang, Dung Le, Lu Cheng, Suhang Wang"
+    venue: "KDD 2026"
+    paper_pdf: "https://arxiv.org/abs/2606.08467"
+    paper_id: "kdd26_safety"
+    types: ["safety", "gnn"]
+    selected: y
   - title: "A Curious Case of Searching for the Correlation between Training Data and Adversarial Robustness of Transformer Textual Models"
     image: "/assets/publications/2024_attack_prone_features/Flowchart_Simple.png"
     authors: "<span class=\"cuong_author\">Cuong Dang</span>,Dung D. Le,Thai Le"
@@ -7,8 +23,8 @@ papers:
     poster: "/assets/publications/2024_attack_prone_features/Poster.pdf"
     slides: "/assets/publications/2024_attack_prone_features/ACL2024_Presentation.pdf"
     code: "https://github.com/CaptainCuong/RobustText_ACL2024"
-    paper_id: "robust"
-    types: ["xai","rai","eai"]
+    paper_id: "acl24_safety"
+    types: ["interpretability","safety"]
     selected: y
   - title: "Score-based Diffusion Model for Conformer Generation"
     image: "/assets/publications/2023_icit_conforemer_generation/sampling_chart.png"
@@ -17,5 +33,5 @@ papers:
     paper_pdf: "https://ieeexplore.ieee.org/document/10225872"
     poster: "/assets/publications/2023_icit_conforemer_generation/Poster-ICIT-2023.pdf"
     paper_id: "drug"
-    types: ["gai"]
+    types: ["diffusion"]
     selected: y

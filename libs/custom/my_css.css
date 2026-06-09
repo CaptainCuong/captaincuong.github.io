@@ -193,6 +193,11 @@ h4 {
     border-bottom-color: #33C3F0; }
 }
 
+sup {
+  font-size: 2em;
+  vertical-align: -0.65em;
+}
+
 /*  ================ Cuong's styling  ================ */
 
 span.paper_tit {
@@ -241,13 +246,41 @@ a.flag_link:hover {
   text-underline-offset:0.2em;
 }
 
+.kw_btn_group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-top: 0.75rem;
+}
+
 .kw_lst {
-  color: blue;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;                        /* larger: 40px */
+  padding: 0 1.25rem;                    /* wider padding */
+  font-size: 1em;                        /* match body text */
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.08);
+  cursor: pointer;
+  user-select: none;
+  transition: filter 0.15s ease, box-shadow 0.15s ease;
+  text-decoration: none;
 }
 
 .kw_lst:hover {
-  color: #c001ff;
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset:0.2em;
+  filter: brightness(0.93);
+  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.13);
+  text-decoration: none;
 }
+
+/* Individual pastel fills */
+.kw_fai { background-color: #d8b4fe; color: #4c1d95; } /* purple  */
+.kw_xai { background-color: #93c5fd; color: #1e3a8a; } /* blue    */
+.kw_gai { background-color: #6ee7b7; color: #064e3b; } /* green   */
+.kw_rai { background-color: #fca5a5; color: #7f1d1d; } /* red     */
+.kw_eai { background-color: #fde68a; color: #78350f; } /* yellow  */
