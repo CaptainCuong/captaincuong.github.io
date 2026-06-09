@@ -1,6 +1,45 @@
 ---
 layout: default
 ---
+<style>
+  .kw_btn_group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin-top: 0.75rem;
+  }
+
+  .kw_lst {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5rem;
+    padding: 0 1.25rem;
+    font-size: 1em;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    user-select: none;
+    transition: filter 0.15s ease, box-shadow 0.15s ease;
+    text-decoration: none;
+  }
+
+  .kw_lst:hover {
+    filter: brightness(0.93);
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.13);
+    text-decoration: none;
+  }
+
+  .kw_fai { background-color: #d8b4fe; color: #4c1d95; }
+  .kw_xai { background-color: #93c5fd; color: #1e3a8a; }
+  .kw_gai { background-color: #6ee7b7; color: #064e3b; }
+  .kw_rai { background-color: #fca5a5; color: #7f1d1d; }
+  .kw_eai { background-color: #fde68a; color: #78350f; }
+</style>
 <!-- ========== About ========== -->
 <div class="docs-section" id="about">
   <h4>About</h4>
