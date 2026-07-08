@@ -1,4 +1,12 @@
 papers:
+  - title: "Capacity-Dependent Effects of Data Selection for Mathematical Reasoning"
+    image: "/assets/publications/2026_colm_data_selection/Theory.png"
+    authors: "<span class=\"cuong_author\">Cuong Dang</span>, Hoang Anh Just, Ruoxi Jia"
+    venue: "COLM 2026"
+    paper_pdf: "https://arxiv.org/pdf/2603.19281"
+    paper_id: "colm26_post-train"
+    types: ["llm", "post-train", "interpretability"]
+    selected: y
   - title: "URAG: A Benchmark for Uncertainty Quantification in Retrieval-Augmented Large Language Models"
     image: "/assets/publications/2026_rag_benchmark/Motivation.png"
     authors: "Vinh Nguyen<sup>*</sup>, <span class=\"cuong_author\">Cuong Dang</span><sup>*</sup>, Jiahao Zhang, Hoa Tran, Minh Tran, Trinh Chau, Thai Le, Lu Cheng, Suhang Wang"
