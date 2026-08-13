@@ -201,10 +201,11 @@ sup {
 /*  ================ Cuong's styling  ================ */
 
 span.paper_tit {
-  color:#00A9FF; 
-  font-weight: bold; 
+  color:#00A9FF;
+  font-weight: bold;
   font-style: italic;
   cursor: pointer;
+  margin-right: 0.2em;
 }
 
 span.paper_tit:hover {

@@ -1,4 +1,12 @@
 papers:
+  - title: "How Robust Are LLMs to Vietnamese Dialects?"
+    image: "/assets/publications/2026_viet_llm/Method.png"
+    authors: "Minh Tran, Trinh Chau, Thanh-Nhan Le, Nam Tran, Luan Thanh Nguyen, <span class=\"cuong_author\">Cuong Dang</span>, Duc Hoang"
+    venue: "Arxiv"
+    paper_pdf: "https://arxiv.org/pdf/2608.10414"
+    paper_id: "viet_llm"
+    types: ["llm"]
+    selected: y
   - title: "Capacity-Dependent Effects of Data Selection for Mathematical Reasoning"
     image: "/assets/publications/2026_colm_data_selection/Theory.png"
     authors: "<span class=\"cuong_author\">Cuong Dang</span>, Hoang Anh Just, Ruoxi Jia"
