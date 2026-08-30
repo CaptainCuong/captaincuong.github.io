@@ -3,6 +3,7 @@ papers:
     image: "/assets/publications/2026_emnlp_rag_survey/Summary.png"
     authors: "Minh Tran, <span class=\"cuong_author\">Cuong Dang</span>, Tuc Nguyen, Khanh-Tung Tran, Minh Nguyen, Trinh Chau, Kien Le, Do Xuan Long, Jiahao Zhang, Hoang D. Nguyen, Thanh Le, Suhang Wang"
     venue: "EMNLP Findings 2026"
+    paper_pdf: "https://arxiv.org/pdf/2608.24977"
     paper_id: "emnlp26_rag_survey"
     types: ["llm", "safety"]
     selected: y
