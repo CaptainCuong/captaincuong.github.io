@@ -20,6 +20,7 @@ papers:
     authors: "<span class=\"cuong_author\">Cuong Dang</span>, Hoang Anh Just, Ruoxi Jia"
     venue: "COLM 2026"
     paper_pdf: "https://arxiv.org/pdf/2608.13721v1"
+    poster: "/assets/publications/2026_colm_data_selection/COLM_Poster.pdf"
     paper_id: "colm26_post-train"
     types: ["llm", "post-train", "interpretability"]
     selected: y
