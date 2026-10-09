@@ -1,4 +1,12 @@
 papers:
+  - title: "Selecting Long-Horizon Trajectories for Reliable and Efficient Terminal-Agent Training"
+    image: "/assets/publications/2026_terminal_agent/Terminal-Agent.png"
+    authors: "<span class=\"cuong_author\">Cuong Dang</span>, Hoang Anh Just, Ruoxi Jia"
+    venue: "Arxiv"
+    paper_pdf: "https://arxiv.org/abs/2610.05831"
+    paper_id: "terminal_agent"
+    types: ["llm", "post-train"]
+    selected: y
   - title: "Retrieved But Not Reliable: A Survey on Attacks, and Defenses in Retrieval-Augmented Generation"
     image: "/assets/publications/2026_emnlp_rag_survey/Summary.png"
     authors: "Minh Tran, <span class=\"cuong_author\">Cuong Dang</span>, Tuc Nguyen, Khanh-Tung Tran, Minh Nguyen, Trinh Chau, Kien Le, Do Xuan Long, Jiahao Zhang, Hoang D. Nguyen, Thanh Le, Suhang Wang"
