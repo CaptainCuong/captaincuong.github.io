@@ -5,7 +5,7 @@ papers:
     venue: "Arxiv"
     paper_pdf: "https://arxiv.org/abs/2610.05831"
     paper_id: "terminal_agent"
-    types: ["llm", "post-train"]
+    types: ["llm", "post-train", "interpretability"]
     selected: y
   - title: "Retrieved But Not Reliable: A Survey on Attacks, and Defenses in Retrieval-Augmented Generation"
     image: "/assets/publications/2026_emnlp_rag_survey/Summary.png"
