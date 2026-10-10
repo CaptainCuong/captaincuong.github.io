@@ -286,6 +286,19 @@ a.flag_link:hover {
 .kw_rai { background-color: #fca5a5; color: #7f1d1d; } /* red     */
 .kw_eai { background-color: #fde68a; color: #78350f; } /* yellow  */
 
+.docs-section-compact {
+  padding: 1.5rem 0;
+}
+
+.visitor-map-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
 .visitor-map {
-  min-height: 140px;
+  flex: 1 1 260px;
+  max-width: 320px;
+  min-height: 80px;
 }
