@@ -302,3 +302,8 @@ a.flag_link:hover {
   max-width: 320px;
   min-height: 80px;
 }
+
+/* News icons */
+.fa-microphone {
+  color: #FF8C00;
+}
