@@ -29,6 +29,7 @@ papers:
     venue: "COLM 2026"
     paper_pdf: "https://arxiv.org/pdf/2608.13721v1"
     poster: "/assets/publications/2026_colm_data_selection/COLM_Poster.pdf"
+    slides: "/talk-slides/Capacity-Dependent Effects of Data Selection for Reasoning.pdf"
     paper_id: "colm26_post-train"
     types: ["llm", "post-train", "interpretability"]
     selected: y
