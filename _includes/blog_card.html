@@ -1,0 +1,11 @@
+{% assign p = include.post %}
+<a class="blog-card" href="{{ p.url | prepend: site.baseurl }}">
+  {% if p.thumbnail %}<img src="{{ p.thumbnail | prepend: site.baseurl }}" alt="{{ p.title }}">{% endif %}
+  <div>
+    <h5>{{ p.title }}{% if p.featured %}<span class="blog-featured">FEATURED</span>{% endif %}</h5>
+    {% if p.subtitle %}<p class="blog-card-sub">{{ p.subtitle }}</p>{% endif %}
+    {% if p.summary %}<p>{{ p.summary }}</p>{% endif %}
+    <p class="blog-meta">{{ p.date | date: "%b %-d, %Y" }}{% if p.context %} &middot; {{ p.context }}{% endif %}</p>
+    <div>{% for tag in p.tags %}<span class="blog-tag">{{ tag }}</span>{% endfor %}</div>
+  </div>
+</a>

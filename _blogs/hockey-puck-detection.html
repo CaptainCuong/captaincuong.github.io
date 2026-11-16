@@ -1,0 +1,336 @@
+---
+layout: blog
+title: "Hockey Puck Detection & Tracking"
+subtitle: "Finding a 17-pixel puck in top-down goal-camera footage"
+date: 2026-11-16
+context: "Course project, ECE 5554 Computer Vision, Virginia Tech"
+summary: "A puck tracker for overhead goal-camera video, built mostly from classical computer vision. Skates, helmets, stick blades and net fixtures all look like the puck, and fast shots smear it into a faint ring. This post walks through each failure and the technique that fixed it."
+thumbnail: /assets/blogs/hockey-puck-detection/thumbnail.jpg
+tags: [Computer Vision, Object Tracking, OpenCV, Segmentation]
+featured: true
+excerpt_separator: "<!--more-->"
+links:
+  - name: Code
+    url: https://code.vt.edu/ece5554-group-16/computer-vision-hockey-puck-tracker
+  - name: Demo video
+    url: /assets/blogs/hockey-puck-detection/demo.webm
+---
+{% raw %}
+
+<div class="tldr">
+  <p><b>TL;DR.</b> Starting from "threshold the dark pixels", I ended up with a
+  pipeline of three parts:</p>
+  <ul>
+    <li><b>Detector:</b> adaptive dark masks with hysteresis, shape and context
+    filters, and a size limit derived from rink geometry.</li>
+    <li><b>Player masks:</b> a pretrained person-segmentation model, used only to
+    reject candidates on players.</li>
+    <li><b>Tracker:</b> camera-motion compensation, a "must move" rule, fast-puck
+    track start-up, backfill and interpolation.</li>
+  </ul>
+  <p style="margin-bottom:0">Almost every component exists because of one
+  concrete failure. The sections below follow those failures in order.</p>
+</div>
+
+<h4 id="demo">Demo</h4>
+<figure>
+  <!-- WebM (VP9) first: plays in every browser, including Chromium builds
+       without the H.264 decoder. MP4 (H.264) is the fallback for older Safari. -->
+  <video id="hockey-demo" class="video-js vjs-default-skin vjs-big-play-centered"
+         poster="/assets/blogs/hockey-puck-detection/hero.jpg" controls muted playsinline preload="auto"
+         data-setup='{"fluid": true, "aspectRatio": "16:9", "playbackRates": [0.25, 0.5, 1, 1.5, 2]}'>
+    <source src="/assets/blogs/hockey-puck-detection/demo.webm" type="video/webm">
+    <source src="/assets/blogs/hockey-puck-detection/demo.mp4" type="video/mp4">
+  </video>
+  <figcaption>Tracker output on the 25.6-second GoalCam compilation (8 clips). Green circle: puck detected. Orange <i>PUCK?</i>: position predicted while the puck is briefly hidden. Yellow: recent trail.</figcaption>
+</figure>
+
+<h6>Contents</h6>
+<ul class="toc">
+  <li><a href="#problem">1. Why a puck is hard to find</a></li>
+  <li><a href="#pipeline">2. Pipeline at a glance</a></li>
+  <li><a href="#detector">3. Candidate detection</a></li>
+  <li><a href="#players">4. Player masks</a></li>
+  <li><a href="#motion">5. "Only moving things can be the puck"</a></li>
+  <li><a href="#tracking">6. Tracking fast pucks</a></li>
+  <li><a href="#size">7. A size prior from rink geometry</a></li>
+  <li><a href="#fixes">8. Every failure and its fix</a></li>
+  <li><a href="#results">9. Results</a></li>
+  <li><a href="#limits">10. Limitations and lessons</a></li>
+</ul>
+
+<!-- ===================================================================== -->
+<h4 id="problem">1. Why a puck is hard to find</h4>
+<p>The camera looks straight down at the net. The puck is a black disc about
+<b>17 pixels across</b> in a 1920&times;1080 frame. On empty ice it is easy
+to see. The trouble is everything else that is also small, dark and round:</p>
+
+<figure>
+  <img src="/assets/blogs/hockey-puck-detection/confusers.jpg" alt="Real pucks versus look-alikes">
+  <figcaption>Green: real pucks. Red: things a naive detector reports as the puck. Every red tile was an actual failure during development.</figcaption>
+</figure>
+
+<p>On top of that, a shot moves the puck <b>100–200 pixels per frame</b> and
+smears it into a faint, broken ring. The video is also a compilation of 8 clips
+with hard cuts, and the camera occasionally pans.</p>
+
+<!-- ===================================================================== -->
+<h4 id="pipeline">2. Pipeline at a glance</h4>
+<div class="pipeline">
+  <span class="step">scene-cut check</span><span class="arrow">&rarr;</span>
+  <span class="step learned">player segmentation</span><span class="arrow">&rarr;</span>
+  <span class="step">camera motion</span><span class="arrow">&rarr;</span>
+  <span class="step">dark masks + filters</span><span class="arrow">&rarr;</span>
+  <span class="step">re-detection near prediction</span><span class="arrow">&rarr;</span>
+  <span class="step">motion evidence</span><span class="arrow">&rarr;</span>
+  <span class="step">tracker</span><span class="arrow">&rarr;</span>
+  <span class="step">backfill &amp; interpolation</span>
+</div>
+<p>Everything is classical computer vision (OpenCV + NumPy), except the purple
+step: a pretrained COCO person-segmentation model (YOLO11-seg) used only to
+say "this pixel belongs to a player".</p>
+
+<!-- ===================================================================== -->
+<h4 id="detector">3. Candidate detection</h4>
+
+<h6>3.1 Thresholds relative to the ice</h6>
+<p class="why"><b>Motivation:</b> the video is dim, and exposure changes between
+clips (ice brightness ranges from 122 to 147 on a 0–255 scale). My first fixed
+threshold rejected every real puck.</p>
+<p>The ice covers most of the frame, so the median brightness is a robust
+reference:
+\[ \iota_t=\operatorname{median}_{\mathbf p}\,V_t(\mathbf p), \]
+and every photometric threshold is a multiple of \(\iota_t\).</p>
+<p>Colour is tested with chroma \(C=\max_c I^c-\min_c I^c<60\) rather than HSV
+saturation. Saturation \(S=(\max-\min)/\max\) becomes unstable as
+\(\max\to 0\): near-black puck pixels came out with \(S=255\) from noise, which
+punched holes in the puck.</p>
+
+<h6>3.2 Hysteresis masks for blurred pucks</h6>
+<p class="why"><b>Motivation:</b> a fast puck shows only a thin, broken dark rim.
+In frame 139, just 65 pixels pass the strict threshold. Simply lowering the
+threshold makes pucks merge with the stick blades they touch.</p>
+<p class="fix"><b>Fix:</b> the same trick Canny uses for edges. Very dark pixels
+are <i>seeds</i>, and a blob grows into connected, moderately dark pixels:</p>
+\[
+\mathcal S=\{V<0.45\,\iota\},\quad
+\mathcal W=\{V<0.70\,\iota\},\quad
+\mathcal M^{\text{hyst}}=\bigcup\big\{\mathcal K\in\mathrm{CC}_8(\mathcal W\cup\mathcal S):\mathcal K\cap\mathcal S\neq\varnothing\big\}.
+\]
+<p>Both masks are then closed with a small disc, small holes are filled (the
+puck's bright logo makes it look like a ring), and both masks propose
+candidates.</p>
+<figure>
+  <img src="/assets/blogs/hockey-puck-detection/masks.jpg" alt="Strict vs hysteresis mask">
+  <figcaption>A fast puck. The strict mask keeps only fragments of the rim. The hysteresis mask recovers the whole disc.</figcaption>
+</figure>
+
+<h6>3.3 Shape and context filters</h6>
+<table>
+  <tr><th>Test</th><th>Definition</th><th>Keeps</th><th>Why</th></tr>
+  <tr><td>circularity</td><td>\(\kappa=4\pi A/P^2\)</td><td>\(\ge0.6\)</td><td>blade fragments \(\approx0.55\)</td></tr>
+  <tr><td>elongation</td><td>rotated-rectangle sides \(a/b\)</td><td>\(\le2.3\)</td><td>a diagonal stick blade has a <i>square</i> axis-aligned box. Blades measured 2.5–3.2, pucks 1.0–1.9</td></tr>
+  <tr><td>contrast ring</td><td>median of the ring \(\ge0.75\,\iota\)</td><td>bright surroundings</td><td>the puck sits alone on ice</td></tr>
+  <tr><td>clutter annulus</td><td>\(\xi=\langle \text{dark}\lor\text{coloured}\lor\text{very bright}\rangle_{12\le r<32}\)</td><td>\(\le0.35\)</td><td>jersey digits and goalie masks: 0.47–0.78. Real pucks: \(\le0.15\)</td></tr>
+  <tr><td>frame edge</td><td>blob touches the border</td><td>reject</td><td>the player it belongs to may be off-screen</td></tr>
+</table>
+<p>The candidate score combines these:
+\[
+\sigma=\min\!\Big(1,\tfrac{\Delta}{\iota}\Big)\cdot\min(1,\kappa)\cdot(1-\rho)\cdot(1-\xi)\cdot\min\!\Big(1,\tfrac{A}{100}\Big),
+\]
+where \(\Delta\) is the contrast with the surrounding ring and \(\rho\) the
+fraction of dark pixels in that ring.</p>
+
+<!-- ===================================================================== -->
+<h4 id="players">4. Player masks</h4>
+<p class="why"><b>Motivation:</b> the camera exposes for the ice, so a white
+jersey is about as bright as the ice. A black skate, a helmet opening or a
+dark sleeve stripe on a white player looks exactly like a puck on ice.</p>
+<p>I tried seven single-frame cues: brightness, texture variance, edge
+density, angular enclosure, morphological "attachment to a player", colour and
+rotated shape. Every one of them overlapped with real pucks that sit next to
+players. The missing information was not about the blob; it was about <i>where
+the players are</i>.</p>
+<p class="fix"><b>Fix:</b> segment people with a pretrained model and reject
+candidates on or near them. With player mask \(\mathcal P\), the distance
+transform is
+\[ D(\mathbf p)=\min_{\mathbf q\in\mathcal P}\lVert\mathbf p-\mathbf q\rVert_2, \]
+and a candidate blob \(\mathcal K\) is rejected if \(\min_{\mathbf p\in\mathcal K}D(\mathbf p)<25\) px.</p>
+<figure>
+  <img src="/assets/blogs/hockey-puck-detection/player_mask.jpg" alt="Player segmentation overlay">
+  <figcaption>Purple: segmented players. A helmet opening lies on the mask (rejected). The puck is far from every player (kept). Sticks are not part of the "person" mask, so a puck on a stick blade survives.</figcaption>
+</figure>
+
+<!-- ===================================================================== -->
+<h4 id="motion">5. "Only moving things can be the puck"</h4>
+<p class="why"><b>Motivation:</b> a puck-shaped fixture at the top of the net
+never moves, and it was reported as the puck for about 140 frames.</p>
+
+<h6>5.1 Camera motion</h6>
+<p>"Not moving" must mean <i>not moving relative to the rink</i>, because the
+camera sometimes pans. Phase correlation failed here: the ice is almost
+textureless and the moving players dominated it. Instead, I track corner
+features of the static scene (rink lines, crease, net) with pyramidal
+Lucas–Kanade, ignoring corners on the player masks, and take the median shift:</p>
+\[ \boldsymbol\delta_t=\operatorname{median}_k\,\mathbf u_k,\qquad \mathbf x^{\text{rink}}=\mathbf x-\textstyle\sum_{\tau\le t}\boldsymbol\delta_\tau . \]
+
+<h6>5.2 Motion evidence for each detection</h6>
+<p>For each candidate, compare its neighbourhood with the same rink location 4
+frames earlier:</p>
+\[
+m(\mathbf c)=\Big\langle\big|G_t(\mathbf c+\mathbf u)-G_{t-4}\big(\mathbf c-(\boldsymbol\Delta_t-\boldsymbol\Delta_{t-4})+\mathbf u\big)\big|\Big\rangle_{\lVert\mathbf u\rVert\le12}.
+\]
+<p>A track can only be the puck if its detections span at least 25 px on the
+rink within the last 20 frames, <b>and</b> at least one of its last 2 detections
+has \(m\ge8\). The second condition catches a track that jumps from a moving
+puck onto a static mark and would otherwise keep its "moving" history.</p>
+<figure>
+  <img src="/assets/blogs/hockey-puck-detection/motion.jpg" alt="Static fixture vs moving puck" style="max-width:420px">
+  <figcaption>The fixture (red) never changes, so \(m\approx0\). The real puck (green) flying into the net behind the mesh gives \(m\approx25\).</figcaption>
+</figure>
+
+<!-- ===================================================================== -->
+<h4 id="tracking">6. Tracking fast pucks</h4>
+<p>Most of my remaining "puck not detected" reports turned out to be
+<b>tracker</b> failures. The detector saw the puck; the tracker never assembled
+the sightings into a confirmed track. These were the fixes:</p>
+
+<h6>6.1 Two-point start-up, third point confirms</h6>
+<p>A brand-new track has no velocity, but a shot can move the puck 207 px in one
+frame, more than the original 145 px search radius. The search radius is now</p>
+\[
+g=45+1.5\lVert\mathbf v\rVert+(10+0.8\lVert\mathbf v\rVert)\,\mu+220\cdot\mathbb 1[h<2],
+\]
+<p>where \(h\) is the number of sightings and \(\mu\) the number of
+consecutive missed frames. After one sighting the search is wide. From the
+second sighting on, the window is centred on the constant-velocity prediction,
+so the third sighting must continue the same direction and spacing. A random
+pair of blobs rarely does.</p>
+
+<h6>6.2 Don't average the first velocity with zero</h6>
+<p>On a track's second sighting the velocity was blended 60/40 with its initial
+value of zero, so a 100 px/frame pass was recorded as 60. After a one-frame
+gap the puck was out of range. Now:</p>
+\[
+\mathbf v\leftarrow\alpha\,\frac{\mathbf c-\boldsymbol\ell}{\mu+1}+(1-\alpha)\,\mathbf v,\qquad
+\alpha=\begin{cases}1 & h=1\\ 0.6 & h\ge2\end{cases}
+\]
+<p>Here \(\boldsymbol\ell\) is the last <i>actual</i> sighting, not the coasted
+prediction. While the puck is hidden, the predicted speed is reduced only
+gently (\(\times0.9\) per frame), so an accelerating shot isn't lost behind a
+player.</p>
+
+<h6>6.3 Search again where the puck should be</h6>
+<p>Some blurred rims break into separate fragments (circularity 0.35), and
+loosening the global thresholds would admit far too much. If the tracked puck
+is missing, the detector runs again on a small window around its prediction
+with relaxed size and shape limits, and keeps only candidates scoring at least
+0.15 (the real puck: 0.20; a crease mark: 0.09).</p>
+<figure>
+  <img src="/assets/blogs/hockey-puck-detection/fast_shot.jpg" alt="Fast shot frames 137-141">
+  <figcaption>A slap shot, frames 137–141: about 100 px per frame, smeared into a ring. Every frame is detected.</figcaption>
+</figure>
+
+<h6>6.4 Backfill, interpolation and single-frame detections</h6>
+<ul>
+  <li><b>Backfill.</b> A track is confirmed after 3 sightings. Results are held
+  in a 4-frame buffer, so once a track is confirmed its earlier sightings are
+  reported too. Otherwise the first frames of every puck appearance were
+  missing.</li>
+  <li><b>Interpolation.</b> A frame where the puck is hidden between two
+  sightings gets
+  \(\hat{\mathbf x}_\tau=\mathbf c_k+\frac{\tau-t_k}{t_{k+1}-t_k}(\mathbf c_{k+1}-\mathbf c_k)\),
+  which is more accurate than a forward prediction.</li>
+  <li><b>Single frame.</b> A puck crossing a corner of the view can be visible
+  in one frame only. It is reported on its own when nothing else is reported and
+  the evidence is very strong: \(\sigma\ge0.6,\ m\ge30,\ \xi\le0.1\). In the
+  whole video exactly two candidates meet this, and both are real pucks.</li>
+</ul>
+<figure>
+  <img src="/assets/blogs/hockey-puck-detection/tracking.jpg" alt="Tracking across a gap">
+  <figcaption>A shot tracked through frame 456, where the puck passes a player: the hidden frame is filled by interpolation.</figcaption>
+</figure>
+
+<!-- ===================================================================== -->
+<h4 id="size">7. A size prior from rink geometry</h4>
+<p class="why"><b>Motivation:</b> the goalie's moving stick blade (frames
+610–620) beat a faint puck in the net. It is dark, moving and roundish, but
+3–6 times larger than a puck.</p>
+<p class="fix"><b>Fix:</b> derive the puck's size from the rink itself. The goal
+crease radius is 6 ft and spans about 420 px, so the scale is
+\(k\approx70\) px/ft. A 3-inch puck is therefore</p>
+\[
+d_{\text{px}}=k\cdot 0.25\ \text{ft}\approx17.5\ \text{px},\qquad
+A_{\text{puck}}=\tfrac{\pi}{4}d_{\text{px}}^2\approx240\ \text{px}^2 .
+\]
+<p>Allowing about 2.25&times; for motion blur and shadows gives
+\(A\le540\) px². Measured: blades 598–688 px², every real puck at most 475.</p>
+<figure>
+  <img src="/assets/blogs/hockey-puck-detection/size_prior.jpg" alt="Stick blade vs puck">
+</figure>
+
+<!-- ===================================================================== -->
+<h4 id="fixes">8. Every failure and its fix</h4>
+<table>
+  <tr><th>Symptom</th><th>Root cause</th><th>Fix</th></tr>
+  <tr><td>nothing detected</td><td>absolute thresholds on a dim video</td><td>ice-relative thresholds</td></tr>
+  <tr><td>puck in the net missed</td><td>HSV saturation noisy near black</td><td>chroma</td></tr>
+  <tr><td>jersey digits, goalie mask</td><td>dark blobs on fabric</td><td>clutter annulus (all colours)</td></tr>
+  <tr><td>stick blade on pads</td><td>diagonal blade has a square box</td><td>rotated-rectangle elongation</td></tr>
+  <tr><td>skates, helmets, sleeves</td><td>white jersey &asymp; ice brightness</td><td>person segmentation</td></tr>
+  <tr><td>static net fixture</td><td>no notion of motion</td><td>camera compensation + motion rule</td></tr>
+  <tr><td>track jumps onto a mark</td><td>motion judged per track only</td><td>per-detection motion evidence</td></tr>
+  <tr><td>blurred fast puck</td><td>broken thin rim</td><td>hysteresis mask + re-detection near the prediction</td></tr>
+  <tr><td>shots never confirmed</td><td>145 px gate, heavy damping</td><td>two-point start-up, speed-aware gate</td></tr>
+  <tr><td>pass lost after a 1-frame gap</td><td>velocity blended with zero</td><td>\(\alpha=1\) on the 2nd sighting</td></tr>
+  <tr><td>first frames missing</td><td>3-sighting confirmation</td><td>backfill</td></tr>
+  <tr><td>one-frame puck</td><td>no track possible</td><td>strong single-frame rule</td></tr>
+  <tr><td>stick blade chosen over the puck</td><td>loose area limit</td><td>geometric size prior</td></tr>
+  <tr><td>tracks across clip cuts</td><td>compilation video</td><td>frame-difference cut detector</td></tr>
+</table>
+
+<!-- ===================================================================== -->
+<h4 id="results">9. Results</h4>
+<table>
+  <tr><th>Version</th><th>Frames with a detection</th><th>What changed</th></tr>
+  <tr><td>classical detector + tracker</td><td>35.5%</td><td>many false positives</td></tr>
+  <tr><td>+ player masks</td><td>29.2%</td><td>skates and helmets removed</td></tr>
+  <tr><td>+ motion rule</td><td>13.0%</td><td>~140 frames of a static fixture removed</td></tr>
+  <tr><td>+ hysteresis mask, re-detection</td><td>25.7%</td><td>fast pucks recovered</td></tr>
+  <tr><td>+ fast-puck tracking, backfill</td><td>33.1%</td><td>shots confirmed, gaps filled</td></tr>
+  <tr><td>+ size prior</td><td><b>32.7%</b> (+18.6% predicted)</td><td>stick blade replaced by the real puck</td></tr>
+</table>
+<p>The share of detected frames went <i>down</i> before it went up. The early
+numbers were inflated by false positives, and each filter first removed those
+before the tracking work recovered real pucks. Much of the remaining "lost"
+time is genuine: the puck is under a goalie's pad, in a glove, or off-screen.</p>
+<div class="note"><b>Honest caveat:</b> there are no ground-truth labels yet.
+These numbers come from visual audits of every detection run, not from
+precision/recall on annotated frames.</div>
+
+<!-- ===================================================================== -->
+<h4 id="limits">10. Limitations and lessons</h4>
+<ul>
+  <li>A puck carried on a stick blade merges with the blade into one shape and
+  is missed.</li>
+  <li>A puck touching a player (within 25 px of the mask) is rejected along with
+  the skates and gloves.</li>
+  <li>A stationary puck is not reported unless the "moving only" rule is turned
+  off; that is by design.</li>
+  <li>The size prior assumes this camera's zoom (about 70 px/ft) and must be
+  rescaled for other footage.</li>
+</ul>
+<p><b>Lessons.</b></p>
+<ol>
+  <li><b>When single-frame features stop separating classes, add a different
+  kind of information.</b> Here that was <i>where the players are</i>, and
+  <i>whether it moves</i>.</li>
+  <li><b>Separate detector failures from tracker failures.</b> Most late "missed
+  puck" bugs were tracker start-up logic, not detection.</li>
+  <li><b>Derive constants from the scene when possible.</b> The rink's known
+  dimensions gave the size limit for free.</li>
+  <li><b>Audit every detection by eye.</b> Two of my own "true puck" labels
+  turned out to be a skate toe and a stick blade.</li>
+</ol>
+
+{% endraw %}

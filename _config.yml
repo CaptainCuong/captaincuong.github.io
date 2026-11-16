@@ -5,3 +5,6 @@ includes:    ./_includes
 collections:
   projects:
     output: true
+  blogs:
+    output: true
+    permalink: /blogs/:name/

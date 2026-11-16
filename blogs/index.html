@@ -1,0 +1,35 @@
+---
+layout: default
+title: Blogs
+---
+<div class="docs-section" id="blogs">
+  <h4>Blogs</h4>
+  <p class="blog-intro">Write-ups of projects I have built: what the problem was, what I tried, what failed, and why the final design looks the way it does.</p>
+
+  {% assign posts = site.blogs | sort: "date" | reverse %}
+  {% assign featured = posts | where: "featured", true %}
+  {% assign others = posts | where_exp: "p", "p.featured != true" %}
+
+  {% for post in featured %}
+    {% include blog_card.html post=post %}
+  {% endfor %}
+  {% for post in others %}
+    {% include blog_card.html post=post %}
+  {% endfor %}
+
+  {% if site.data.projects.projects.size > 0 %}
+  <h6 style="margin-top: 3rem; font-weight: 600; letter-spacing: .1rem; text-transform: uppercase; color: rgba(0,0,0,0.55);">Other projects</h6>
+  {% for proj in site.data.projects.projects %}
+    {% assign thumb = proj.thumbnail %}
+    {% unless thumb contains "://" %}{% assign thumb = "/" | append: proj.thumbnail | prepend: site.baseurl %}{% endunless %}
+    <a class="blog-card" href="{{ proj.url }}" target="_blank">
+      <img src="{{ thumb }}" alt="{{ proj.title }}">
+      <div>
+        <h5>{{ proj.title }} <i class="fa fa-external-link" aria-hidden="true" style="font-size: 0.8em;"></i></h5>
+        {% if proj.subtitle %}<p class="blog-card-sub">{{ proj.subtitle }}</p>{% endif %}
+        <p class="blog-meta">Code on GitHub</p>
+      </div>
+    </a>
+  {% endfor %}
+  {% endif %}
+</div>
