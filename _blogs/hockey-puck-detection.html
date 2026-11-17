@@ -4,7 +4,7 @@ title: "Hockey Puck Detection & Tracking"
 subtitle: "Finding a 17-pixel puck in top-down goal-camera footage"
 date: 2026-11-16
 context: "Course project, ECE 5554 Computer Vision, Virginia Tech"
-summary: "A puck tracker for overhead goal-camera video, built mostly from classical computer vision. Skates, helmets, stick blades and net fixtures all look like the puck, and fast shots smear it into a faint ring. This post walks through each failure and the technique that fixed it."
+summary: "A puck tracker for overhead goal-camera video, built mostly from classical computer vision. Skates, helmets, stick blades and net fixtures all look like the puck, and fast shots smear it into a faint ring. This post walks through each failure, the technique that fixed it, and how I learned to measure progress properly: F1 rose from 0.21 to 0.83."
 thumbnail: /assets/blogs/hockey-puck-detection/thumbnail.jpg
 tags: [Computer Vision, Object Tracking, Segmentation]
 featured: true
@@ -28,8 +28,12 @@ links:
     <li><b>Tracker:</b> camera-motion compensation, a "must move" rule, fast-puck
     track start-up, backfill and interpolation.</li>
   </ul>
-  <p style="margin-bottom:0">Almost every component exists because of one
-  concrete failure. The sections below follow those failures in order.</p>
+  <p>Almost every component exists because of one concrete failure. The
+  sections below follow those failures in order.</p>
+  <p style="margin-bottom:0"><b>Evaluation:</b> my first metric, the share of
+  frames with a detection, went <i>down</i> as the tracker improved. I replaced it
+  with precision, recall and F1 on hand-labelled frames. On that measure every
+  stage pays off: F1 rises from 0.21 to 0.83.</p>
 </div>
 
 <h4 id="demo">Demo</h4>
@@ -55,7 +59,7 @@ links:
   <li><a href="#tracking">6. Tracking fast pucks</a></li>
   <li><a href="#size">7. A size prior from rink geometry</a></li>
   <li><a href="#fixes">8. Every failure and its fix</a></li>
-  <li><a href="#results">9. Results</a></li>
+  <li><a href="#evaluation">9. Evaluation: measuring the right thing</a></li>
   <li><a href="#limits">10. Limitations and lessons</a></li>
 </ul>
 
@@ -287,26 +291,176 @@ A_{\text{puck}}=\tfrac{\pi}{4}d_{\text{px}}^2\approx240\ \text{px}^2 .
   <tr><td>one-frame puck</td><td>no track possible</td><td>strong single-frame rule</td></tr>
   <tr><td>stick blade chosen over the puck</td><td>loose area limit</td><td>geometric size prior</td></tr>
   <tr><td>tracks across clip cuts</td><td>compilation video</td><td>frame-difference cut detector</td></tr>
+  <tr><td>metric fell while the tracker improved</td><td>it counted reports, not correct reports</td><td>precision / recall / F1 on labelled frames</td></tr>
 </table>
 
 <!-- ===================================================================== -->
-<h4 id="results">9. Results</h4>
+<h4 id="evaluation">9. Evaluation: measuring the right thing</h4>
+
+<h6>9.1 Motivation: why my first metric failed</h6>
+<p class="why">For most of the project I tracked progress with two things: the
+<b>share of frames with a detection</b>, and an <b>audit</b> where I looked
+through every run of detections the tracker reported. Both seemed reasonable,
+and both misled me:</p>
+<ol>
+  <li><b>It counted reports, not <i>correct</i> reports.</b> A skate reported as
+  the puck raised the score just like the real puck did. So every filter that
+  removed false positives made the number <i>fall</i>. Adding player masks and
+  the motion rule took it from 35.5% to 13.0% while the tracker was clearly
+  getting better.</li>
+  <li><b>It couldn't see misses.</b> An audit of reported detections only shows
+  what the tracker <i>did</i> report. A puck it never reported is invisible to
+  both the share and the audit. The fast-shot failures (frames 277, 416, 458)
+  only surfaced because someone scrubbed through the video by hand.</li>
+  <li><b>Quick visual judgements aren't ground truth.</b> In passing, I labelled
+  a skate toe (frames 504–522) and a stick blade (611–612) as "the puck". With
+  no fixed labels, the same frame could be judged differently on different days,
+  and two versions couldn't be compared fairly.</li>
+</ol>
+<p>The chart below puts the old metric next to the one I replaced it with,
+computed on the same runs. The old metric ends <i>lower</i> than it started,
+even though the tracker improved substantially.</p>
+
+<div class="metric-chart" role="table" aria-label="Old metric versus F1 for each development stage">
+  <div class="mc-row mc-head" role="row">
+    <div>Stage (cumulative)</div>
+    <div><span>Old metric</span><small>% frames with a detection</small></div>
+    <div><span>New metric</span><small>F1 on labelled frames</small></div>
+  </div>
+  <div class="mc-row" title="Original version: 35.5% of frames reported as detected; F1 0.212 (precision 0.229, recall 0.198)">
+    <div class="mc-stage">Original version</div>
+    <div class="mc-cell mc-old"><div class="mc-bar" style="width: calc(70% * 0.8875)"></div><span class="mc-val">35.5%</span></div>
+    <div class="mc-cell mc-new"><div class="mc-bar" style="width: calc(70% * 0.2120)"></div><span class="mc-val">0.21</span></div>
+  </div>
+  <div class="mc-row" title="Classical detector: 34.2% of frames reported as detected; F1 0.276 (precision 0.312, recall 0.247)">
+    <div class="mc-stage">Classical detector</div>
+    <div class="mc-cell mc-old"><div class="mc-bar" style="width: calc(70% * 0.8550)"></div><span class="mc-val">34.2%</span></div>
+    <div class="mc-cell mc-new"><div class="mc-bar" style="width: calc(70% * 0.2760)"></div><span class="mc-val">0.28</span></div>
+  </div>
+  <div class="mc-row" title="+ player masks: 29.4% of frames reported as detected; F1 0.309 (precision 0.382, recall 0.259)">
+    <div class="mc-stage">+ player masks</div>
+    <div class="mc-cell mc-old"><div class="mc-bar" style="width: calc(70% * 0.7350)"></div><span class="mc-val">29.4%</span></div>
+    <div class="mc-cell mc-new"><div class="mc-bar" style="width: calc(70% * 0.3090)"></div><span class="mc-val">0.31</span></div>
+  </div>
+  <div class="mc-row" title="+ motion rule: 13.0% of frames reported as detected; F1 0.427 (precision 1.000, recall 0.272)">
+    <div class="mc-stage">+ motion rule</div>
+    <div class="mc-cell mc-old"><div class="mc-bar" style="width: calc(70% * 0.3250)"></div><span class="mc-val">13.0%</span></div>
+    <div class="mc-cell mc-new"><div class="mc-bar" style="width: calc(70% * 0.4270)"></div><span class="mc-val">0.43</span></div>
+  </div>
+  <div class="mc-row" title="+ hysteresis, re-detection: 25.7% of frames reported as detected; F1 0.724 (precision 1.000, recall 0.568)">
+    <div class="mc-stage">+ hysteresis, re-detection</div>
+    <div class="mc-cell mc-old"><div class="mc-bar" style="width: calc(70% * 0.6425)"></div><span class="mc-val">25.7%</span></div>
+    <div class="mc-cell mc-new"><div class="mc-bar" style="width: calc(70% * 0.7240)"></div><span class="mc-val">0.72</span></div>
+  </div>
+  <div class="mc-row" title="+ fast-puck tracking: 33.1% of frames reported as detected; F1 0.829 (precision 0.983, recall 0.716)">
+    <div class="mc-stage">+ fast-puck tracking</div>
+    <div class="mc-cell mc-old"><div class="mc-bar" style="width: calc(70% * 0.8275)"></div><span class="mc-val">33.1%</span></div>
+    <div class="mc-cell mc-new"><div class="mc-bar" style="width: calc(70% * 0.8290)"></div><span class="mc-val">0.83</span></div>
+  </div>
+  <div class="mc-row" title="+ size prior: 32.7% of frames reported as detected; F1 0.829 (precision 0.983, recall 0.716)">
+    <div class="mc-stage">+ size prior</div>
+    <div class="mc-cell mc-old"><div class="mc-bar" style="width: calc(70% * 0.8175)"></div><span class="mc-val">32.7%</span></div>
+    <div class="mc-cell mc-new"><div class="mc-bar" style="width: calc(70% * 0.8290)"></div><span class="mc-val">0.83</span></div>
+  </div>
+</div>
+<p class="blog-meta" style="text-align:center">Grey: share of all 768 frames reported as "detected" (scale 0–40%). Blue: F1 against the ground truth below (scale 0–1). Hover a row for the numbers.</p>
+
+<h6>9.2 The proposed protocol</h6>
+<p class="fix"><b>Ground truth.</b> I labelled every 4th frame of the video
+(192 frames), chosen uniformly so the sample isn't biased toward failures I
+already knew about. Each frame gets one of three labels:</p>
+<ul>
+  <li><b>visible:</b> the centre of every puck that can be seen. Two frames
+  contain two pucks.</li>
+  <li><b>not visible:</b> no puck can be seen (hidden, off-screen or out of
+  play).</li>
+  <li><b>uncertain:</b> too ambiguous to label; 11 frames, excluded from
+  scoring.</li>
+</ul>
+<p>That leaves 181 scored frames, 81 of them with a visible puck.</p>
+<p><b>Two-stage labelling, so misses count too:</b></p>
+<ol>
+  <li>For each frame, every position <i>any</i> version reported, plus the
+  detector's top candidates with all filters off, is shown as a lettered crop,
+  and I pick the puck.</li>
+  <li>If no candidate is the puck, I inspect the full frame and zoomed crops
+  with a coordinate grid. This found 6 pucks that every version had missed,
+  e.g. on a raised stick blade (frames 448, 452) and in the crease (460).</li>
+</ol>
+<figure>
+  <img src="/assets/blogs/hockey-puck-detection/labelling.jpg" alt="Two-stage labelling: candidate crops, then zoomed full frame">
+  <figcaption>Left: candidate crops for frames 176–188. The puck is A (and C) in 176, C in 180, D in 184, and A and D in 188 (two pucks). Right: frame 460 has no matching candidate; the zoomed frame shows the puck in the crease.</figcaption>
+</figure>
+
+<p><b>Scoring.</b> For each scored frame, compare the tracker's reported
+position \(\hat{\mathbf x}\) with the set of visible pucks \(\mathcal G\),
+using a tolerance of \(\tau=20\) px (about one puck diameter):</p>
+<ul>
+  <li><b>TP:</b> \(\hat{\mathbf x}\) is within \(\tau\) of a puck in \(\mathcal G\).</li>
+  <li><b>FP:</b> a report with no puck within \(\tau\), whether or not \(\mathcal G\) is empty.</li>
+  <li><b>FN:</b> \(\mathcal G\) is non-empty and there is no correct report.
+  A report in the wrong place counts as both FP and FN.</li>
+</ul>
+\[
+P=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FP}},\qquad
+R=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FN}},\qquad
+F_1=\frac{2PR}{P+R}=\frac{2\,\mathrm{TP}}{2\,\mathrm{TP}+\mathrm{FP}+\mathrm{FN}}.
+\]
+<p>The last form shows why this metric fixes the problem in 9.1. Each kind of
+real improvement raises it, and padding the output lowers it:</p>
+<ul>
+  <li>Removing a false report lowers FP: <b>F1 rises</b>.</li>
+  <li>Finding a missed puck turns an FN into a TP: <b>F1 rises</b>.</li>
+  <li>Moving a wrong report onto the puck removes one FP and one FN and adds a
+  TP: <b>F1 rises</b>.</li>
+  <li>Reporting <i>more</i> without being right only adds FPs, so F1 falls. The
+  old metric would have gone up.</li>
+</ul>
+<p>Only frames reported as <i>detected</i> are scored. Predicted positions
+(coasting while the puck is hidden) are guesses, and they get a separate
+secondary score.</p>
+
+<p><b>Ablation.</b> Each development stage has an on/off switch in the code. I
+re-ran the whole video once per stage, adding stages cumulatively in the order
+they were developed, plus the original committed version. So every row below
+is the same video, the same labels and the same scoring, with exactly one stage
+added.</p>
+
+<h6>9.3 Results</h6>
 <table>
-  <tr><th>Version</th><th>Frames with a detection</th><th>What changed</th></tr>
-  <tr><td>classical detector + tracker</td><td>35.5%</td><td>many false positives</td></tr>
-  <tr><td>+ player masks</td><td>29.2%</td><td>skates and helmets removed</td></tr>
-  <tr><td>+ motion rule</td><td>13.0%</td><td>~140 frames of a static fixture removed</td></tr>
-  <tr><td>+ hysteresis mask, re-detection</td><td>25.7%</td><td>fast pucks recovered</td></tr>
-  <tr><td>+ fast-puck tracking, backfill</td><td>33.1%</td><td>shots confirmed, gaps filled</td></tr>
-  <tr><td>+ size prior</td><td><b>32.7%</b> (+18.6% predicted)</td><td>stick blade replaced by the real puck</td></tr>
+  <tr><th>Stage (cumulative)</th><th>Precision</th><th>Recall</th><th>F1</th><th>TP</th><th>FP</th><th>FN</th></tr>
+  <tr><td>Original version</td><td>0.229</td><td>0.198</td><td>0.212</td><td>16</td><td>54</td><td>65</td></tr>
+  <tr><td>Classical detector</td><td>0.312</td><td>0.247</td><td>0.276</td><td>20</td><td>44</td><td>61</td></tr>
+  <tr><td>+ player masks</td><td>0.382</td><td>0.259</td><td>0.309</td><td>21</td><td>34</td><td>60</td></tr>
+  <tr><td>+ motion rule</td><td>1.000</td><td>0.272</td><td>0.427</td><td>22</td><td>0</td><td>59</td></tr>
+  <tr><td>+ hysteresis, re-detection</td><td>1.000</td><td>0.568</td><td>0.724</td><td>46</td><td>0</td><td>35</td></tr>
+  <tr><td>+ fast-puck tracking</td><td>0.983</td><td>0.716</td><td><b>0.829</b></td><td>58</td><td>1</td><td>23</td></tr>
+  <tr><td>+ size prior</td><td>0.983</td><td>0.716</td><td><b>0.829</b></td><td>58</td><td>1</td><td>23</td></tr>
 </table>
-<p>The share of detected frames went <i>down</i> before it went up. The early
-numbers were inflated by false positives, and each filter first removed those
-before the tracking work recovered real pucks. Much of the remaining "lost"
-time is genuine: the puck is under a goalie's pad, in a glove, or off-screen.</p>
-<div class="note"><b>Honest caveat:</b> there are no ground-truth labels yet.
-These numbers come from visual audits of every detection run, not from
-precision/recall on annotated frames.</div>
+<p>The table splits cleanly into two phases. The <b>filters</b> (player masks,
+motion rule) raise <i>precision</i>: false positives fall from 54 to 0, and by
+the motion rule every reported puck is a real one. The <b>detection and
+tracking</b> work (hysteresis masks, re-detection, fast-puck start-up,
+backfill) then raises <i>recall</i>, from 27% to 72% of visible pucks found,
+while precision stays near 1.</p>
+
+<h6>9.4 What the evaluation still says</h6>
+<ul>
+  <li><b>The size prior ties.</b> It changes only frames 610–620 (the stick blade
+  vs the puck in the net). The single sampled frame there (612) is labelled
+  uncertain, because the puck is too faint behind the mesh to place. So this
+  sample can't measure that fix. It changes nothing else, so it doesn't hurt
+  either.</li>
+  <li><b>Remaining errors</b> of the final version: 1 false positive (frame 512,
+  a mark on the net) and 23 misses. In 18 of the misses the tracker has a
+  <i>predicted</i> position but no detection: blurred or hidden pucks, pucks
+  carried on a stick blade, and pucks at the frame edge. That list is the
+  to-do list for the next iteration.</li>
+  <li><b>Caveats.</b> One video, every 4th frame, one annotator (me). A fix that
+  touches only a few frames can fall between samples. Positions come from
+  candidate centres, so this measures <i>whether</i> the puck is found, not
+  pixel-accurate localisation.</li>
+</ul>
 
 <!-- ===================================================================== -->
 <h4 id="limits">10. Limitations and lessons</h4>
@@ -322,15 +476,33 @@ precision/recall on annotated frames.</div>
 </ul>
 <p><b>Lessons.</b></p>
 <ol>
-  <li><b>When single-frame features stop separating classes, add a different
-  kind of information.</b> Here that was <i>where the players are</i>, and
-  <i>whether it moves</i>.</li>
-  <li><b>Separate detector failures from tracker failures.</b> Most late "missed
-  puck" bugs were tracker start-up logic, not detection.</li>
-  <li><b>Derive constants from the scene when possible.</b> The rink's known
-  dimensions gave the size limit for free.</li>
-  <li><b>Audit every detection by eye.</b> Two of my own "true puck" labels
-  turned out to be a skate toe and a stick blade.</li>
+  <li><b>Simple problems aren't always simple.</b> "Threshold the dark pixels"
+  turned into a pipeline with person segmentation, camera-motion estimation and
+  a tracker.</li>
+  <li><b>Measure against ground truth, not against what the system reports.</b>
+  My first metric, the share of frames with a detection, went <i>down</i> from
+  35.5% to 13.0% while the tracker improved. It counted wrong reports as
+  successes, and, like my audits of reported detections, it could not see the
+  pucks the tracker missed. The fix was cheap: a uniformly sampled labelled set
+  (every 4th frame), labelled in two stages so that pucks every version missed
+  are included, then scored with per-frame precision, recall and
+  \(F_1=2\mathrm{TP}/(2\mathrm{TP}+\mathrm{FP}+\mathrm{FN})\). Removing a false
+  report or finding a missed puck raises it, and reporting more without being
+  right lowers it. Set this up first: it would
+  have shown at once that player masks and the motion rule were improvements,
+  not regressions.</li>
+  <li><b>When one source of information isn't enough, look for another.</b>
+  Appearance alone could not tell the puck from skates, helmets or a net fixture.
+  Knowing where the players are, and whether a blob moves relative to the rink,
+  made the difference.</li>
+  <li><b>Debug the failure, not just the algorithm.</b> Ablate errors carefully:
+  check each stage on its own before deciding which one failed. Most late
+  "missed puck" bugs were in the tracker's start-up logic, not in detection: the
+  detector had found the puck, but the tracker never confirmed it. Finding the
+  root cause of each failure (<a href="#fixes">Section 8</a>), and keeping a
+  switch per stage so the ablation in <a href="#evaluation">Section 9</a> can
+  re-run it, mattered more than tuning thresholds or adding general
+  complexity.</li>
 </ol>
 
 {% endraw %}

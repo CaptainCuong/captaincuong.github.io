@@ -370,3 +370,23 @@ a.flag_link:hover {
 .pipeline .arrow { color: rgba(0,0,0,0.35); }
 /* Navbar: one more item (Blogs) still fits on one line */
 @media (min-width: 750px) { .navbar-link { margin-right: 28px; } }
+
+/* Metric comparison (blog evaluation section): one row per stage, two bar columns */
+.metric-chart { --bar-old: #a3a29c; --bar-new: #2a78d6; --ink: #0b0b0b; --ink-2: #52514e; --grid: #ececea;
+  margin: 1.6rem 0 0.4rem 0; font-size: 1.3rem; }
+.metric-chart .mc-row { display: grid; grid-template-columns: 34% 1fr 1fr; gap: 0 1.4rem; align-items: center;
+  padding: 0.45rem 0; border-bottom: 1px solid var(--grid); }
+.metric-chart .mc-head { font-weight: 600; color: var(--ink); border-bottom: 1px solid #d8d7d3; }
+.metric-chart .mc-head span { display: block; }
+.metric-chart .mc-head small { font-weight: 400; color: var(--ink-2); }
+.metric-chart .mc-stage { color: var(--ink-2); }
+.metric-chart .mc-cell { display: flex; align-items: center; gap: 0.6rem; }
+.metric-chart .mc-bar { height: 10px; border-radius: 0 4px 4px 0; min-width: 2px; }
+.metric-chart .mc-old .mc-bar { background: var(--bar-old); }
+.metric-chart .mc-new .mc-bar { background: var(--bar-new); }
+.metric-chart .mc-val { color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.metric-chart .mc-row:not(.mc-head):hover { background: #f6f8fb; }
+@media (max-width: 550px) {
+  .metric-chart { font-size: 1.15rem; }
+  .metric-chart .mc-row { grid-template-columns: 30% 1fr 1fr; gap: 0 0.6rem; }
+}
