@@ -4,7 +4,6 @@ title: Blogs
 ---
 <div class="docs-section" id="blogs">
   <h4>Blogs</h4>
-  <p class="blog-intro">Write-ups of projects I have built: what the problem was, what I tried, what failed, and why the final design looks the way it does.</p>
 
   {% assign posts = site.blogs | sort: "date" | reverse %}
   {% assign featured = posts | where: "featured", true %}

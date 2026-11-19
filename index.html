@@ -40,17 +40,26 @@ layout: default
   .kw_rai { background-color: #fca5a5; color: #7f1d1d; }
   .kw_eai { background-color: #fde68a; color: #78350f; }
 
-  .fa-microphone { color: #FF8C00; }
+  /* News icons: one colour per kind of news, tuned to the blue site theme */
+  #news .fa-solid { width: 1.2em; text-align: center; }
+  #news .fa-microphone           { color: #0d9488; } /* talk: teal */
+  #news .fa-book-open            { color: #6366f1; } /* preprint: indigo */
+  #news .fa-award                { color: #d97706; } /* acceptance: amber */
+  #news .fa-champagne-glasses    { color: #db2777; } /* celebration: rose */
+
+  /* Conference names in the About paragraph */
+  .conf { font-weight: 700; padding: 0.05em 0.4em; border-radius: 0.3em; white-space: nowrap; }
+  .conf_acl   { background-color: #fee2e2; color: #991b1b; }
+  .conf_emnlp { background-color: #dbeafe; color: #1e40af; }
+  .conf_kdd   { background-color: #d1fae5; color: #065f46; }
+  .conf_colm  { background-color: #ede9fe; color: #5b21b6; }
 </style>
 <!-- ========== About ========== -->
 <div class="docs-section" id="about">
   <h4>About</h4>
   <p>
-    <p style="color: red; text-align: center; font-size: 25px;">
-      I am actively looking for an internship position for Spring 2027.
-    </p>
     <p>
-      Cuong Dang is a second-year Ph.D. student in the Department of Electrical and Computer Engineering at Virginia Tech, advised by <a href="https://ruoxijia.net/">Prof. Ruoxi Jia</a>. He also closely collaborates with <a href="https://suhangwang.ist.psu.edu/">Prof. Suhang Wang</a> at Penn State. His current research focuses on post-training methods that enable coding agents to recursively self-improve. He also has research experience in mathematical reasoning, safety, uncertainty quantification, retrieval-augmented generation, interpretability, graph neural networks, and diffusion. Feel free to <a href="mailto:{{ site.data.main_info.email }}">reach out</a> to talk if your interests align!
+      Cuong Dang is a second-year Ph.D. student in the Department of Electrical and Computer Engineering at Virginia Tech, advised by <a href="https://ruoxijia.net/">Prof. Ruoxi Jia</a>. He also closely collaborates with <a href="https://suhangwang.ist.psu.edu/">Prof. Suhang Wang</a> at Penn State. His current research focuses on post-training methods that enable coding agents to recursively self-improve. He also has research experience in mathematical reasoning, safety, uncertainty quantification, retrieval-augmented generation, interpretability, graph neural networks, and diffusion. His papers have been accepted at top NLP and data mining conferences, including <span class="conf conf_acl">ACL</span>, <span class="conf conf_emnlp">EMNLP</span>, <span class="conf conf_kdd">KDD</span>, and <span class="conf conf_colm">COLM</span>. Feel free to <a href="mailto:{{ site.data.main_info.email }}">reach out</a> to talk if your interests align!
     </p>
     <p>
       Click on keywords below to see papers organized by topics:
@@ -71,51 +80,51 @@ layout: default
   <div style="max-height: 200px; overflow:auto;">
     <ul>
       <li>
-        <b style="color:#FF6868">[Oct 2026]</b> &nbsp&nbsp
+        <b class="news-date">[Oct 2026]</b> &nbsp&nbsp
          <i class="fa-solid fa-microphone"></i> I'll give a talk on "<span class="paper_tit" onclick="scrollToPaper('talk_tamu26')">Data Selection for Efficient Reasoning SFT</span>" at the course CSCE 689 &mdash; Special Topics in AI for Science (Fall 2026) at Texas A&amp;M University (see <a href="{{ '/talk-slides/Capacity-Dependent Effects of Data Selection for Reasoning.pdf' | prepend: site.baseurl }}" target="_blank">slides</a>). Thanks <a href="https://yimengm.com/">Prof. Yimeng Min</a> for the invitation!
       </li>
       <li>
-        <b style="color:#FF6868">[Oct 2026]</b> &nbsp&nbsp
+        <b class="news-date">[Oct 2026]</b> &nbsp&nbsp
          <i class="fa-solid fa-book-open"></i> Our preprint "<span class="paper_tit" onclick="scrollToPaper('terminal_agent')">Selecting Long-Horizon Trajectories for Reliable and Efficient Terminal-Agent Training</span>" has been released.
       </li>
       <li>
-        <b style="color:#FF6868">[Aug 2026]</b> &nbsp&nbsp
+        <b class="news-date">[Aug 2026]</b> &nbsp&nbsp
          <i class="fa-solid fa-award"></i> Congratulations on our paper "<span class="paper_tit" onclick="scrollToPaper('emnlp26_rag_survey')">Retrieved But Not Reliable: A Survey on Attacks, and Defenses in Retrieval-Augmented Generation</span>" accepted to EMNLP Findings 2026!
       </li>
       <li>
-        <b style="color:#FF6868">[Aug 2026]</b> &nbsp&nbsp
+        <b class="news-date">[Aug 2026]</b> &nbsp&nbsp
          <i class="fa-solid fa-book-open"></i> Our preprint "<span class="paper_tit" onclick="scrollToPaper('viet_llm')">How Robust Are LLMs to Vietnamese Dialects?</span>" has been released.
       </li>
       <li>
-        <b style="color:#FF6868">[July 2026]</b> &nbsp&nbsp
+        <b class="news-date">[July 2026]</b> &nbsp&nbsp
          <i class="fa-solid fa-award"></i> Congratulations on our paper "<span class="paper_tit" onclick="scrollToPaper('colm26_post-train')">Capacity-Dependent Effects of Data Selection for Reasoning</span>" accepted to COLM 2026. See you all at San Francisco!
       </li>
       <li>
-        <b style="color:#FF6868">[May 2026]</b> &nbsp&nbsp
+        <b class="news-date">[May 2026]</b> &nbsp&nbsp
          <i class="fa-solid fa-award"></i> Congratulations on our paper "<span class="paper_tit" onclick="scrollToPaper('kdd26_safety')">The Confidence Trap: Calibration Attacks for Graph Neural Networks</span>" accepted to KDD 2026. See you all at Jeju, Korea!
       </li>
       <li>
-        <b style="color:#FF6868">[Feb 2026]</b> &nbsp&nbsp
+        <b class="news-date">[Feb 2026]</b> &nbsp&nbsp
          <i class="fa-solid fa-book-open"></i> Our paper "<span class="paper_tit" onclick="scrollToPaper('urag')">URAG: A Benchmark for Uncertainty Quantification in Retrieval-Augmented Large Language Models</span>" has been released.
       </li>
       <li>
-        <b style="color:#FF6868">[Sep 2025]</b> &nbsp&nbsp
+        <b class="news-date">[Sep 2025]</b> &nbsp&nbsp
          <i class="fa-solid fa-champagne-glasses"></i> Yayyy, I'll start my PhD journey at Virginia Tech!
       </li>
       <li>
-        <b style="color:#FF6868">[Apr 2025]</b> &nbsp&nbsp
+        <b class="news-date">[Apr 2025]</b> &nbsp&nbsp
          <i class="fa-solid fa-champagne-glasses"></i> Congratulations!!! I have received a PhD offer from Max Planck Institute and will visit MPI for Open House.
       </li>
       <li>
-        <b style="color:#FF6868">[Feb 2025]</b> &nbsp&nbsp
+        <b class="news-date">[Feb 2025]</b> &nbsp&nbsp
          <i class="fa-solid fa-champagne-glasses"></i> Congratulations!!! I have received a PhD offer from NUS SoC and will visit NUS for <a href="https://researchweek.comp.nus.edu.sg/computing/">Open House</a>.
       </li>
       <li>
-        <b style="color:#FF6868">[Aug 2024]</b> &nbsp&nbsp
+        <b class="news-date">[Aug 2024]</b> &nbsp&nbsp
          <i class="fa-solid fa-champagne-glasses"></i> I'll be at ACL 2024. Looking forward to seeing you all.
       </li>
       <li>
-        <b style="color:#FF6868">[May 2024]</b> &nbsp&nbsp
+        <b class="news-date">[May 2024]</b> &nbsp&nbsp
          <i class="fa-solid fa-award"></i> Congratulations on our paper "<span class="paper_tit" onclick="scrollToPaper('acl24_safety')">A Curious Case of Searching for the Correlation between Training Data and Adversarial Robustness of Transformer Textual Models</span>" accepted to ACL Findings 2024.
       </li>
     </ul>
@@ -146,6 +155,7 @@ layout: default
 
   <ul class="tab-nav">
     <li><div class="button active" data-ref="#papers-selected">Selected</div></li>
+    <li><div class="button" data-ref="#papers-preprint">Preprint</div></li>
     <li><div class="button" data-ref="#papers-post-train">Post-Training</div></li>
     <li><div class="button" data-ref="#papers-interpretability">Interpretability</div></li>
     <li><div class="button" data-ref="#papers-safety">Safety</div></li>
@@ -155,7 +165,8 @@ layout: default
 
     <div class="tab-content">
     <div class="tab-pane active" id="papers-selected">
-      {% assign selected_papers = site.data.publications.papers | where: "selected", "y" %}
+      {% comment %} Selected: accepted papers only (arXiv preprints go to the Preprint tab) {% endcomment %}
+      {% assign selected_papers = site.data.publications.papers | where: "selected", "y" | where_exp: "paper", "paper.venue != 'Arxiv'" %}
       {% for paper in selected_papers %}
         <div class="paper">
           <div class="row">
@@ -177,6 +188,47 @@ layout: default
                   <a class="button" href="{{ paper.slides | prepend: site.baseurl }}" target="_blank">Slides</a>
                 {% endif %}
                 
+                {% if paper.poster %}
+                  <a class="button" href="{{ paper.poster | prepend: site.baseurl }}" target="_blank">Poster</a>
+                {% endif %}
+
+                {% if paper.video %}
+                  <a class="button" href="{{ paper.video }}" target="_blank">Video</a>
+                {% endif %}
+
+                {% if paper.code %}
+                  <a class="button" href="{{ paper.code }}" target="_blank">Code</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="tab-pane" id="papers-preprint">
+      {% assign preprint_papers = site.data.publications.papers | where: "venue", "Arxiv" %}
+      {% for paper in preprint_papers %}
+        <div class="paper">
+          <div class="row">
+            <div class="four columns">
+              <div class="figure">
+                <a href="{{ paper.image }}"><img src="{{ paper.image }}" width="100%"></a>
+              </div>
+            </div>
+            <div class="eight columns">
+              <p class="title"><b><span id={{paper.paper_id}}>{{ paper.title }}</span></b></p>
+              <p>{{ paper.authors }}</p>
+              <p><i>{{ paper.venue }}</i></p>
+              <div class="paper-buttons">
+                {% if paper.paper_pdf %}
+                  <a class="button" href="{{ paper.paper_pdf }}" target="_blank">Paper</a>
+                {% endif %}
+
+                {% if paper.slides %}
+                  <a class="button" href="{{ paper.slides | prepend: site.baseurl }}" target="_blank">Slides</a>
+                {% endif %}
+
                 {% if paper.poster %}
                   <a class="button" href="{{ paper.poster | prepend: site.baseurl }}" target="_blank">Poster</a>
                 {% endif %}

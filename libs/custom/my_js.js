@@ -94,17 +94,20 @@ $(document).ready(function() {
 });
 
 function scrollToPaper(paperId) {
-  // Select the <div> element with the data-ref="#papers-selected" attribute
-  var selectedDiv = document.querySelector('.tab-nav .button[data-ref="#papers-selected"]');
-  
-  // Check if the selectedDiv exists
-  if (selectedDiv) {
-      // Trigger a click event on the selectedDiv
-      selectedDiv.click();
-  }
-
   // Find the linked text element
   var linkedText = document.getElementById(paperId);
+  if (!linkedText) {
+    console.log(`Paper "${paperId}" not found.`);
+    return;
+  }
+
+  // Open the tab that contains the paper (e.g. Selected or Preprint)
+  var pane = linkedText.closest('.tab-pane');
+  var tabButton = pane && document.querySelector(`.tab-nav .button[data-ref="#${pane.id}"]`);
+  if (tabButton) {
+    tabButton.click();
+  }
+
   // Scroll to the specified destination
   linkedText.scrollIntoView({ behavior: 'smooth',
                               block: 'center',

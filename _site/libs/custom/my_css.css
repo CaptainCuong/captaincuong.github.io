@@ -390,3 +390,49 @@ a.flag_link:hover {
   .metric-chart { font-size: 1.15rem; }
   .metric-chart .mc-row { grid-template-columns: 30% 1fr 1fr; gap: 0 0.6rem; }
 }
+
+/* ================ Color theme ================
+   One accent (deep blue) for links, paper titles and the active tab; quiet
+   greys for dates. The pastel topic/conference chips are the only multicolour
+   elements. "html body" raises specificity so these win over skeleton,
+   skeleton-tabs and timeline CSS, which load later. */
+:root {
+  --accent: #1d4ed8;        /* links, titles */
+  --accent-dark: #1e3a8a;   /* hover, emphasis */
+  --accent-soft: #eff6ff;   /* tinted backgrounds */
+  --accent-line: #93c5fd;   /* timeline dots, borders */
+  --muted: #64748b;         /* dates, secondary text */
+}
+
+html body a { color: var(--accent); }
+html body a:hover { color: var(--accent-dark); }
+
+html body span.paper_tit,
+html body span.kws { color: var(--accent); }
+html body span.paper_tit:hover,
+html body span.kws:hover { color: var(--accent-dark); }
+
+html body .turn_red { color: #dc2626; }
+
+html body span.cuong_author { color: var(--accent-dark); font-style: normal; text-decoration: underline; text-underline-offset: 0.2em; }
+
+/* News dates */
+.news-date { color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Publication tabs */
+html body ul.tab-nav li .active.button { color: var(--accent); text-decoration: none; border-top: 2px solid var(--accent); }
+
+/* Vitae timeline */
+html body .flag { color: var(--accent-dark); background: var(--accent-soft); }
+html body .direction-l .flag:after { border-left-color: var(--accent-soft); }
+html body .direction-r .flag:after { border-right-color: var(--accent-soft); }
+html body .direction-l .flag:before,
+html body .direction-r .flag:before { border-color: var(--accent-line); }
+html body .time-wrapper { color: var(--muted); }
+html body span.flag:hover,
+html body a.flag_link:hover { color: var(--accent); }
+
+/* Blog cards and post accents follow the same accent */
+html body .blog-card h5 { color: var(--accent); }
+html body .blog-card:hover { border-color: var(--accent-line); }
+html body .blog-post .tldr { border-left-color: var(--accent); }
