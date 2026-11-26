@@ -1,4 +1,12 @@
 papers:
+  - title: "SWE-MISBEHAVIOR: Benchmarking and Mitigating Boundary Violations in Software Coding Agents"
+    image: "/assets/publications/2026_swe_misbehavior/SWE-Misbehavior-Sunburst-Chart.png"
+    authors: "Do Xuan Trong, Duc Anh Nguyen, Do Xuan Long, <span class=\"cuong_author\">Cuong Dang</span>, et al."
+    venue: "Arxiv"
+    paper_pdf: "https://arxiv.org/abs/2610.18206"
+    paper_id: "swe_misbehavior"
+    types: ["llm", "safety"]
+    selected: y
   - title: "Selecting Long-Horizon Trajectories for Reliable and Efficient Terminal-Agent Training"
     image: "/assets/publications/2026_terminal_agent/Terminal-Agent.png"
     authors: "<span class=\"cuong_author\">Cuong Dang</span>, Hoang Anh Just, Ruoxi Jia"
