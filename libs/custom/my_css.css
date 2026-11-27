@@ -436,3 +436,8 @@ html body a.flag_link:hover { color: var(--accent); }
 html body .blog-card h5 { color: var(--accent); }
 html body .blog-card:hover { border-color: var(--accent-line); }
 html body .blog-post .tldr { border-left-color: var(--accent); }
+
+/* Expandable author lists (papers with authors_full); toggled by the
+   `hidden` attribute in togglePaperAuthors() */
+.paper-authors [hidden] { display: none !important; }
+.paper-authors .authors-toggle { font-weight: 600; }

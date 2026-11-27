@@ -135,3 +135,10 @@ function scrollToButton(dataRefValue) {
     console.log(`Div with data-ref "${dataRefValue}" not found.`);
   }
 }
+// Expand/collapse a paper's author list ("et al." <-> full list).
+function togglePaperAuthors(link, expand) {
+  var box = link.closest('.paper-authors');
+  box.querySelector('.authors-short').hidden = expand;
+  box.querySelector('.authors-full').hidden = !expand;
+  return false;
+}

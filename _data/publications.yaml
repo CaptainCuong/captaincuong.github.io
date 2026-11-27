@@ -1,7 +1,9 @@
 papers:
   - title: "SWE-MISBEHAVIOR: Benchmarking and Mitigating Boundary Violations in Software Coding Agents"
     image: "/assets/publications/2026_swe_misbehavior/SWE-Misbehavior-Sunburst-Chart.png"
+    image_width: "70%"
     authors: "Do Xuan Trong, Duc Anh Nguyen, Do Xuan Long, <span class=\"cuong_author\">Cuong Dang</span>, et al."
+    authors_full: "Do Xuan Trong, Duc Anh Nguyen, Do Xuan Long, Ngoc-Hai Nguyen, Tongyao Zhu, Duy Dinh, Cayden Chik, <span class=\"cuong_author\">Cuong Dang</span>, Jiaying Wu, Xuan-Phi Nguyen, Vinh Van Nguyen, Kenji Kawaguchi, Shafiq Joty, Nancy F. Chen, Min-Yen Kan"
     venue: "Arxiv"
     paper_pdf: "https://arxiv.org/abs/2610.18206"
     paper_id: "swe_misbehavior"

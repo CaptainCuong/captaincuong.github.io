@@ -1,0 +1,18 @@
+{% comment %}
+  Author line for a paper. If the paper has `authors_full`, the short list's
+  "et al." becomes a link that expands to the full list (and back).
+  The full list starts with the HTML `hidden` attribute, so it stays hidden
+  even if a browser has an old cached stylesheet.
+  Usage: {% include paper_authors.html paper=paper %}
+{% endcomment %}
+{% assign p = include.paper %}
+{% if p.authors_full %}
+  {% capture more_link %}<a href="#" class="authors-toggle" onclick="return togglePaperAuthors(this, true);" title="Show all authors">et al.</a>{% endcapture %}
+  {% capture less_link %}<a href="#" class="authors-toggle" onclick="return togglePaperAuthors(this, false);">(show less)</a>{% endcapture %}
+  <p class="paper-authors">
+    <span class="authors-short">{{ p.authors | replace: "et al.", more_link }}</span>
+    <span class="authors-full" hidden>{{ p.authors_full }} {{ less_link }}</span>
+  </p>
+{% else %}
+  <p>{{ p.authors }}</p>
+{% endif %}

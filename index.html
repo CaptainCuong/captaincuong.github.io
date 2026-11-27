@@ -172,12 +172,12 @@ layout: default
           <div class="row">
             <div class="four columns">
               <div class="figure">
-                <a href="{{ paper.image }}"><img src="{{ paper.image }}" width="100%"></a>
+                <a href="{{ paper.image }}"><img src="{{ paper.image }}" style="width: {{ paper.image_width | default: '100%' }}; display: block; margin: 0 auto;"></a>
               </div>
             </div>
             <div class="eight columns">
               <p class="title"><b><span id={{paper.paper_id}}>{{ paper.title }}</span></b></p>
-              <p>{{ paper.authors }}</p>
+              {% include paper_authors.html paper=paper %}
               <p><i>{{ paper.venue }}</i></p>
               <div class="paper-buttons">
                 {% if paper.paper_pdf %}
@@ -213,12 +213,12 @@ layout: default
           <div class="row">
             <div class="four columns">
               <div class="figure">
-                <a href="{{ paper.image }}"><img src="{{ paper.image }}" width="100%"></a>
+                <a href="{{ paper.image }}"><img src="{{ paper.image }}" style="width: {{ paper.image_width | default: '100%' }}; display: block; margin: 0 auto;"></a>
               </div>
             </div>
             <div class="eight columns">
               <p class="title"><b><span id={{paper.paper_id}}>{{ paper.title }}</span></b></p>
-              <p>{{ paper.authors }}</p>
+              {% include paper_authors.html paper=paper %}
               <p><i>{{ paper.venue }}</i></p>
               <div class="paper-buttons">
                 {% if paper.paper_pdf %}
@@ -255,12 +255,12 @@ layout: default
               <div class="row">
                 <div class="four columns">
                   <div class="figure">
-                    <img src="{{ paper.image }}" width="100%">
+                    <img src="{{ paper.image }}" style="width: {{ paper.image_width | default: '100%' }}; display: block; margin: 0 auto;">
                   </div>
                 </div>
                 <div class="eight columns">
                   <p class="title"><b>{{ paper.title }}</b></p>
-                  <p>{{ paper.authors }}</p>
+                  {% include paper_authors.html paper=paper %}
                   <p><i>{{ paper.venue }}</i></p>
                   <div class="paper-buttons">
                     {% if paper.paper_pdf %}
@@ -299,12 +299,12 @@ layout: default
               <div class="row">
                 <div class="four columns">
                   <div class="figure">
-                    <img src="{{ paper.image }}" width="100%">
+                    <img src="{{ paper.image }}" style="width: {{ paper.image_width | default: '100%' }}; display: block; margin: 0 auto;">
                   </div>
                 </div>
                 <div class="eight columns">
                   <p class="title"><b>{{ paper.title }}</b></p>
-                  <p>{{ paper.authors }}</p>
+                  {% include paper_authors.html paper=paper %}
                   <p><i>{{ paper.venue }}</i></p>
                   <div class="paper-buttons">
                     {% if paper.paper_pdf %}
@@ -343,12 +343,12 @@ layout: default
               <div class="row">
                 <div class="four columns">
                   <div class="figure">
-                    <img src="{{ paper.image }}" width="100%">
+                    <img src="{{ paper.image }}" style="width: {{ paper.image_width | default: '100%' }}; display: block; margin: 0 auto;">
                   </div>
                 </div>
                 <div class="eight columns">
                   <p class="title"><b>{{ paper.title }}</b></p>
-                  <p>{{ paper.authors }}</p>
+                  {% include paper_authors.html paper=paper %}
                   <p><i>{{ paper.venue }}</i></p>
                   <div class="paper-buttons">
                     {% if paper.paper_pdf %}
@@ -387,12 +387,12 @@ layout: default
               <div class="row">
                 <div class="four columns">
                   <div class="figure">
-                    <img src="{{ paper.image }}" width="100%">
+                    <img src="{{ paper.image }}" style="width: {{ paper.image_width | default: '100%' }}; display: block; margin: 0 auto;">
                   </div>
                 </div>
                 <div class="eight columns">
                   <p class="title"><b>{{ paper.title }}</b></p>
-                  <p>{{ paper.authors }}</p>
+                  {% include paper_authors.html paper=paper %}
                   <p><i>{{ paper.venue }}</i></p>
                   <div class="paper-buttons">
                     {% if paper.paper_pdf %}
@@ -431,12 +431,12 @@ layout: default
               <div class="row">
                 <div class="four columns">
                   <div class="figure">
-                    <img src="{{ paper.image }}" width="100%">
+                    <img src="{{ paper.image }}" style="width: {{ paper.image_width | default: '100%' }}; display: block; margin: 0 auto;">
                   </div>
                 </div>
                 <div class="eight columns">
                   <p class="title"><b>{{ paper.title }}</b></p>
-                  <p>{{ paper.authors }}</p>
+                  {% include paper_authors.html paper=paper %}
                   <p><i>{{ paper.venue }}</i></p>
                   <div class="paper-buttons">
                     {% if paper.paper_pdf %}
